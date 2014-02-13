@@ -343,7 +343,7 @@
                                 for(i = 0; i < yRows.length; i++) {
                                         s1 = Math.floor(xMin / App.World.map.tileSize);
                                         if(_.isUndefined(App.World.map.grid[yRows[i]])) {
-                                        } else if(App.World.map.grid[yRows[i]][s1] !== false) {
+                                        } else if(!!App.World.map.grid[yRows[i]][s1] !== false) {
                                                 if(xDir > 0) {
                                                         xStep = s1 * App.World.map.tileSize - this.bBox.w('x') - 1;
                                                 } else if(xDir < 0) {
@@ -372,7 +372,7 @@
                                 for(i = 0; i < xCols.length; i++) {
                                         s1 = Math.floor(yMin / App.World.map.tileSize);
                                         if(_.isUndefined(App.World.map.grid[s1])) {
-                                        } else if(App.World.map.grid[s1][xCols[i]] !== false) {
+                                        } else if(!!App.World.map.grid[s1][xCols[i]] !== false) {
                                                 if(yDir > 0) {
                                                         yStep = s1 * App.World.map.tileSize - this.bBox.h('y') - 1;
                                                 } else if(yDir < 0) {
@@ -400,9 +400,20 @@
                 var en = entity;
 
                 this.health = settings.health;
+                this.onDeath = function() { };
+                this.died = false;
+
+                if(!_.isUndefined(settings.onDeath)) {
+                        this.onDeath = settings.onDeath;
+                }
 
                 this.takeDamage = function(amount) {
                         this.health -= amount;
+
+                        if(this.isDead() && !this.died) {
+                                this.onDeath();
+                                this.died = true;
+                        }
                 };
 
                 this.isDead = function() {

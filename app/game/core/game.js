@@ -159,16 +159,9 @@
 
                         App.Draw.get('hud').clear();
                         App.Draw.get('entity').clear();
+                        App.Draw.get('entity2').clear();
 
-                        if(this.gameState == 'gameplay') {
-                                // attempt to keep the player centered
-                                var camera = App.World.map.camera, 
-                                    cameraCenter = camera.center(), 
-                                    originX = -((cameraCenter.x + camera.attrs.velocity.x * interpolation * moveDelta) - (App.Draw.width() / 2)), 
-                                    originY = -((cameraCenter.y + camera.attrs.velocity.y * interpolation * moveDelta) - (App.Draw.height() / 2));
-
-                                App.Draw.setOrigin(~~originX, ~~originY);
-                        }
+                        App.Defs.GameStates[this.gameState].tick.draw(interpolation, moveDelta);
 
                         App.Draw.drawTransitions(interpolation);
 
@@ -190,6 +183,16 @@
 
                         this.lastDraw = drawTime;
                 };
+
+                this.centerCamera = function(interpolation, moveDelta) {
+                        // attempt to keep the player centered
+                        var camera = App.World.map.camera, 
+                            cameraCenter = camera.center(), 
+                            originX = -((cameraCenter.x + camera.attrs.velocity.x * interpolation * moveDelta) - (App.Draw.width() / 2) + 160), 
+                            originY = -((cameraCenter.y + camera.attrs.velocity.y * interpolation * moveDelta) - (App.Draw.height() / 2));
+
+                        App.Draw.setOrigin(~~originX, ~~originY);
+                }
                 
                 this.moveDelta = 1;
                 this.lastUpdate = this.gameTicks();
@@ -218,14 +221,7 @@
                                 //App.Draw.setResolution();
                         }
 
-                        if(this.gameState == 'loading') {
-                                App.Tools.assetFontCheck();
-                                if(App.Defs.Assets.Loaded.Complete) {
-                                        this.setGameState('gameplay');
-                                }
-                        } else if(this.gameState == 'gameplay') {
-                                this.gameplayOps();
-                        }
+                        App.Defs.GameStates[this.gameState].tick.update();
 
                         App.Draw.runTransitions();
 
@@ -275,6 +271,8 @@
                         }
                 };
 
+                this.defaultDir = { x: 0, y: 0 };
+
                 this.playerOps = function() {
                         var player = App.World.getPlayer(0), 
                             camera = App.World.getCamera(), 
@@ -285,8 +283,8 @@
                             cursor, 
                             diff;
 
-                        xDir = 1;
-                        yDir = 1;
+                        xDir = this.defaultDir.x;
+                        yDir = this.defaultDir.y;
 
                         if(App.Controls.keyDown('W') || App.Controls.keyDown('ARROW_UP')) {
                                 yDir -= 2;
@@ -309,16 +307,16 @@
                                 xDir = 0;
                         }
 
-                        if(player.attrs.x > 24 * 64) {
-                                diff = player.attrs.x - 24 * 64;
-                                player.c('Movable').setLastPos(8 * 64 + diff - 10, -1);
-                                player.attrs.x = 8 * 64 + diff;
-                                camera.attrs.x = 8 * 64 + diff;
+                        if(player.attrs.x > 56 * 64) {
+                                diff = player.attrs.x - 56 * 64;
+                                player.c('Movable').setLastPos(20 * 64 + diff - 10, -1);
+                                player.attrs.x = 20 * 64 + diff;
+                                camera.attrs.x = 20 * 64 + diff;
                         }
 
                         newPos = player.c('Movable').move(xDir, yDir);
 
-                        if(newPos.collisions.length) {
+                        if(!_.isUndefined(newPos.collisions) && newPos.collisions.length) {
                                 player.c('Hurtable').takeDamage(1);
                         }
                 };

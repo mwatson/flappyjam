@@ -79,7 +79,7 @@
 
                 this.generateBlockers = function(width, height, mapSize) {
                         // generate an empty map grid
-                        var grid = [], val, x = 0, y = 0, dir, lastDir = -1;
+                        var grid = [], val, x = 0, y = 0;
                         for(y = 0; y < height; y++) {
                                 grid.push([]);
                                 for(x = 0; x < width; x++) {
@@ -102,15 +102,33 @@
 
                         // add in columns (evenly spaced)
                         for(y = 0; y < height; y++) {
-                                if(y > 1 && y < 7) {
-                                        continue;
-                                }
-
-                                for(x = 4; x < width; x += 4) {
-                                        this.columns['col_' + y] = y;
-                                        grid[y][x] = 1;
+                                for(x = 20; x < width - 6; x += 6) {
+                                        this.columns['col_' + x] = x;
                                 }
                         }
+
+                        var c, st = 2, lst = 0;
+                        _.each(this.columns, function(val, key){
+                                while(Math.abs(st - lst) > 2) {
+                                        st--;
+                                }
+
+                                st = App.Tools.rand(1, 4);
+                                grid[st][val] = 1;
+                                c = st - 1;
+                                while(c > 0) {
+                                        grid[c][val] = 1;
+                                        c--;
+                                }
+
+                                grid[st + 3][val] = 1;
+                                c = st + 4;
+                                while(c < 9) {
+                                        grid[c][val] = 1;
+                                        c++;
+                                }
+                                lst = st;
+                        });
 
                         return grid;
                 };
@@ -120,16 +138,16 @@
                         for(var y = 0; y < this.grid.length; y++) {
                                 for(var x = 0; x < this.grid[y].length; x++) {
                                         if(this.grid[y][x] == 1) {
-                                                this.grid[y][x] = true;
+                                                //this.grid[y][x] = true;
                                         } else {
-                                                this.grid[y][x] = false;
+                                                //this.grid[y][x] = false;
                                         }
                                 }
                         }
                 };
 
                 this.draw = function(interpolation, moveDelta) {
-                        var x, y, i = 0, 
+                        var x, y, i = 0, col, 
                             player = App.Player.playerEnt, 
                             mul = player.attrs.speed * interpolation * moveDelta;
 
@@ -140,7 +158,14 @@
                                                 y * this.tileSize + 32, 
                                                 this.tileSize, 
                                                 this.tileSize, 
-                                                this.bgGrid[y][x]
+                                                '#061400'
+                                        );
+                                        App.Draw.get('background').fillRect(
+                                                x * this.tileSize, 
+                                                y * this.tileSize + 32, 
+                                                this.tileSize - 18, 
+                                                this.tileSize - 18, 
+                                                '#000'
                                         );
                                 }
                         }
@@ -160,71 +185,20 @@
                         for(y = 0; y < this.grid.length; y++) {
                                 for(x = 0; x < this.grid[y].length; x++) {
                                         if(this.grid[y][x]) {
+                                                App.Draw.get('entity2').fillRect(
+                                                        x * this.tileSize - 2,
+                                                        y * this.tileSize + 2,
+                                                        this.tileSize, 
+                                                        this.tileSize, 
+                                                        this.levelColors.shadow
+                                                );
+
                                                 App.Draw.get('entity').fillRect(
                                                         x * this.tileSize,
                                                         y * this.tileSize,
                                                         this.tileSize, 
                                                         this.tileSize, 
                                                         this.levelColors.main
-                                                );
-                                        }
-                                }
-                        }
-
-                        if(App.Game.settings.debug.showQuadTree) {
-                                for(i = 0; i < this.quadtree.length; i++) {
-
-                                        App.Draw.get('entity').strokeRect(
-                                                this.quadtree[i].x + 1, 
-                                                this.quadtree[i].y + 1, 
-                                                this.quadtree[i].w - 2, 
-                                                this.quadtree[i].h - 2, 
-                                                '#0F0'
-                                        );
-
-                                        App.Draw.get('entity').writeDirect(
-                                                i, 
-                                                App.Game.settings.debug.font, 
-                                                '#0F0', 
-                                                this.quadtree[i].x + 10, 
-                                                this.quadtree[i].y + 30
-                                        );
-                                }
-                        }
-
-                        if(App.Game.settings.debug.showDMap) {
-
-                                if(this.dPaths.player.length) {
-                                        for(x = 0; x < this.dPaths.player.length; x++) {
-                                                i = this.dPaths.player[x];
-
-                                                App.Draw.get('entity').fillRect(
-                                                        i.x * this.tileSize, 
-                                                        i.y * this.tileSize, 
-                                                        this.tileSize, 
-                                                        this.tileSize, 
-                                                        '#F00'
-                                                );
-                                        }
-                                }
-
-                                for(y = 0; y < this.dMaps.player.length; y++) {
-                                        for(x = 0; x < this.dMaps.player[y].length; x++) {
-
-                                                App.Draw.get('entity').strokeRect(
-                                                        x * this.tileSize + 1, 
-                                                        y * this.tileSize + 1, 
-                                                        this.tileSize - 2, 
-                                                        this.tileSize - 2, 
-                                                        '#00F'
-                                                );
-
-                                                App.Draw.get('entity').writeDirect(
-                                                        this.dMaps.player[y][x], 
-                                                        App.Game.settings.debug.font, 
-                                                        '#00F', 
-                                                        x * this.tileSize + 10, 
-                                                        y * this.tileSize + 30
                                                 );
                                         }
                                 }

@@ -177,7 +177,7 @@
 
                 this.getString = function(str) {
                         var local = App.Game.settings.local;
-                        if(!_.isUndefined(App.Defs.Strings[local]) && !_.isUndefined(App.Defs.Strings[local][str])) {
+                        if(!_.isUndefined(App.Defs.Strings) && !_.isUndefined(App.Defs.Strings[local]) && !_.isUndefined(App.Defs.Strings[local][str])) {
                                 return App.Defs.Strings[local][str];
                         }
                         return str;

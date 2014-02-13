@@ -26,6 +26,17 @@ App.init = function() {
                                 }
                         }, 
                         { 
+                                id: 'entity2', 
+                                origin: 'dynamic', 
+                                style: { 
+                                        position: 'absolute', 
+                                        top: '50%', 
+                                        left: '50%', 
+                                        marginLeft: '-320px', 
+                                        marginTop: '-240px'
+                                }
+                        }, 
+                        { 
                                 id: 'entity', 
                                 origin: 'dynamic', 
                                 style: { 
@@ -80,24 +91,18 @@ App.init = function() {
                         updatecap: 20, 
 
                         hud: {
-                                titleFont: 'bold 150px AlphaBeta', 
-                                largeFont: 'bold 120px AlphaBeta', 
-                                bigFont: 'bold 96px AlphaBeta', 
-                                medFont: 'bold 86px AlphaBeta', 
-                                smallFont: 'bold 72px AlphaBeta', 
-                                smallFontNoBold: '72px AlphaBeta', 
-                                tinyFont: 'bold 54px AlphaBeta'
+                                titleFont: 'bold 44px PCSenior', 
+                                largeFont: 'bold 36px PCSenior', 
+                                normalFont: 'bold 24px PCSenior',
+                                smallFont: 'bold 18px PCSenior'
                         }, 
 
                         // for lazy lookups
                         fontHeights: {
-                                'bold 150px AlphaBeta': 150, 
-                                'bold 120px AlphaBeta': 120, 
-                                'bold 96px AlphaBeta': 96, 
-                                'bold 86px AlphaBeta': 86, 
-                                'bold 72px AlphaBeta': 72, 
-                                '72px AlphaBeta': 72, 
-                                'bold 54px AlphaBeta': 54, 
+                                'bold 44px PCSenior': 44, 
+                                'bold 36px PCSenior': 36, 
+                                'bold 24px PCSenior': 24, 
+                                'bold 18px PCSenior': 18, 
                                 'bold 24px Courier New': 24
                         }, 
 
@@ -143,7 +148,7 @@ App.init = function() {
                 world: [{
 
                         tileSize: 64, 
-                        width: 32, 
+                        width: 68, 
                         height: 9, 
 
                         mapSize: 1000, 
@@ -155,11 +160,12 @@ App.init = function() {
 
                         // define the colors of the bg tiles
                         rows: [
-                                { depth: 0,  fgColor: '#A8BDED', bgColor: '#C5CFE6' }, 
+                                { depth: 0,  fgColor: '#000', bgColor: '#030A00' }, 
                         ], 
 
                         colors: {
-                                main: '#2573B3'
+                                main: '#348C01',
+                                shadow: '#A1D415'
                         }, 
 
                         enemies: {

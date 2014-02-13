@@ -16,6 +16,7 @@
                         D: 68, 
                         M: 77, 
                         P: 80, 
+                        R: 82, 
                         ARROW_UP: 38, 
                         ARROW_RIGHT: 39, 
                         ARROW_DOWN: 40, 
@@ -47,10 +48,10 @@
                 setKeyDown = function(index) {
                         App.Controls.keyState[index] = App.Controls.buttonStates.DOWN;
                 }, 
-                setKeyUp = function(index)             {
+                setKeyUp = function(index) {
                         App.Controls.keyState[index] = App.Controls.buttonStates.UP;
                 }, 
-                setKeyInactive = function(index)             {
+                setKeyInactive = function(index) {
                         App.Controls.keyState[index] = App.Controls.buttonStates.UP;
                 }, 
 

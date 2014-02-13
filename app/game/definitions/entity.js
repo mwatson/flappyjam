@@ -7,12 +7,15 @@
                 //
 
                 player: {
-                        width: 64, 
-                        height: 64, 
-                        speed: 8, 
+                        width: 48, 
+                        height: 48, 
+                        speed: 12, 
                         components: {
                                 Renderable: {
-                                        color: '#1D52C4'
+                                        color: '#5FDB00', 
+                                        hasTrail: true, 
+                                        trail: function() {
+                                        }
                                 }, 
                                 Movable: {
                                         acceleration: 0.2
@@ -20,14 +23,18 @@
                                 Collidable: {
                                         method: 'cross', 
                                         setup: {
-                                                x: { x: 0, y: 10, width: 64, height: 44 }, 
-                                                y: { x: 10, y: 0, width: 44, height: 64 }
+                                                x: { x: 0, y: 10, width: 48, height: 32 }, 
+                                                y: { x: 10, y: 0, width: 32, height: 48 }
                                         }
                                 }, 
                                 IsPlayer: {
                                 }, 
                                 Hurtable: {
-                                        health: 1
+                                        health: 1, 
+                                        onDeath: function() {
+                                                App.Game.setGameState('gameover', function(){
+                                                });
+                                        }
                                 },
                                 HasProjectile: {
                                         name: 'bullet',
@@ -40,7 +47,7 @@
                 camera: {
                         width: 32, 
                         height: 32, 
-                        speed: 8, 
+                        speed: 12, 
                         components: {
                                 //Renderable: {
                                         //color: 'rgba(255,255,0,0.5)'
