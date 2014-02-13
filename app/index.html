@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+<title></title>
+
+<style>
+@font-face {
+        font-family: 'PCSenior';
+        src: url('assets/fonts/pcsenior.ttf');
+}
+body { margin: 0px; padding: 0px; background: #000; overflow: hidden; }
+canvas { /*cursor: url('assets/img/crosshair01.png'), crosshair;*/ cursor: none; }
+div#dragbar { position: absolute; top: 0px; left: 0px; width: 100%; height: 16px; -webkit-app-region: drag; cursor: pointer; }
+</style>
+
+<script src="lib/lodash.js"></script>
+<script src="lib/seedrandom.js"></script>
+
+<script src="game/main.js"></script>
+
+<script src="game/core/tools.js"></script>
+<script src="game/core/draw.js"></script>
+<script src="game/core/controls.js"></script>
+<script src="game/core/definitions.js"></script>
+<script src="game/core/game.js"></script>
+
+<script src="game/definitions/assets.js"></script>
+<script src="game/definitions/sprites.js"></script>
+<script src="game/definitions/entity.js"></script>
+
+<script src="game/entity/entity.js"></script>
+<script src="game/entity/player.js"></script>
+
+<script src="game/world/world.js"></script>
+<script src="game/world/map.js"></script>
+
+<script src="game/setup.js"></script>
+        
+</head>
+<body>
+        <div id="dragbar"></div>
+</body>
+</html>
