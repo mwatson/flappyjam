@@ -15,7 +15,7 @@ App.init = function() {
                         { 
                                 id: 'background', 
                                 origin: 'dynamic', 
-                                parallax: { x: 0.75, y: 0.75 },
+                                parallax: { x: 0.55, y: 0.55 },
                                 style: { 
                                         position: 'absolute', 
                                         top: '50%', 
@@ -148,7 +148,7 @@ App.init = function() {
                 world: [{
 
                         tileSize: 64, 
-                        width: 68, 
+                        width: 192, 
                         height: 9, 
 
                         mapSize: 1000, 
@@ -160,7 +160,7 @@ App.init = function() {
 
                         // define the colors of the bg tiles
                         rows: [
-                                { depth: 0,  fgColor: '#000', bgColor: '#030A00' }, 
+                                { depth: 0,  fgColor: '#000', bgColor: '#003000' }, 
                         ], 
 
                         colors: {

@@ -329,6 +329,12 @@
                                 this.ctx.textAlign = 'start';
                         };
 
+                        this.writeTextCenter = function(text, font, color, x, y) {
+                                this.ctx.textAlign = 'center';
+                                this.writeRaw(getString(text), font, color, x, y);
+                                this.ctx.textAlign = 'start';
+                        };
+
                         // write directly and don't cache the text
                         this.writeDirect = function(text, font, color, x, y) {
                                 var coords = this.calcXY(x, y);

@@ -20,7 +20,6 @@
                                 Movable: {
                                         acceleration: 0.2
                                 }, 
-                                /*
                                 Collidable: {
                                         method: 'cross', 
                                         setup: {
@@ -28,20 +27,21 @@
                                                 y: { x: 10, y: 0, width: 32, height: 48 }
                                         }
                                 }, 
-                                */
                                 IsPlayer: {
                                 }, 
                                 Hurtable: {
                                         health: 1, 
                                         onDeath: function() {
                                                 App.Game.setGameState('gameover', function(){
+                                                        App.Game.defaultDir = { x: 0, y: 1 };
+                                                        if(App.Game.level >= App.Game.best.level) {
+                                                                App.Game.best.level = App.Game.level;
+                                                                if(App.Game.score >= App.Game.best.score) {
+                                                                        App.Game.best.score = App.Game.score;
+                                                                }
+                                                        }
                                                 });
                                         }
-                                },
-                                HasProjectile: {
-                                        name: 'bullet',
-                                        rate: 50, 
-                                        origin: { x: 24, y: 24 }
                                 }
                         }
                 }, 

@@ -24,7 +24,7 @@
                                         App.Game.centerCamera(interpolation, moveDelta);
 
                                         App.Draw.get('hud').writeText(
-                                                'VIRTUAL BIRD', 
+                                                'VIRTUAL/BIRD', 
                                                 App.Game.settings.hud.titleFont, 
                                                 '#FFF', 
                                                 53, 
@@ -32,7 +32,7 @@
                                         );
 
                                         App.Draw.get('hud').writeText(
-                                                'VIRTUAL BIRD', 
+                                                'VIRTUAL/BIRD', 
                                                 App.Game.settings.hud.titleFont, 
                                                 '#54C200', 
                                                 50, 
@@ -40,7 +40,7 @@
                                         );
 
                                         App.Draw.get('hud').writeTextMultiLine(
-                                                'A CYBERPUNK THRILLER', 
+                                                'A CYBERPUNK THRILLER_', 
                                                 App.Game.settings.hud.normalFont, 
                                                 '#245400', 
                                                 72, 
@@ -49,7 +49,7 @@
                                         );
 
                                         App.Draw.get('hud').writeTextMultiLine(
-                                                'A CYBERPUNK THRILLER', 
+                                                'A CYBERPUNK THRILLER_', 
                                                 App.Game.settings.hud.normalFont, 
                                                 '#FFF', 
                                                 70, 
@@ -58,7 +58,25 @@
                                         );
 
                                         App.Draw.get('hud').writeTextMultiLine(
-                                                'Controls:|Flap - W or Up Arrow|Dive - S or Down Arrow', 
+                                                '> FLAP TO BEGIN_', 
+                                                App.Game.settings.hud.smallFont, 
+                                                '#245400', 
+                                                122, 
+                                                242, 
+                                                38
+                                        );
+
+                                        App.Draw.get('hud').writeTextMultiLine(
+                                                '> FLAP TO BEGIN_', 
+                                                App.Game.settings.hud.smallFont, 
+                                                '#FFF', 
+                                                120, 
+                                                240, 
+                                                38
+                                        );
+
+                                        App.Draw.get('hud').writeTextMultiLine(
+                                                'CONTROLS:|FLAP - W OR UP ARROW|Dive - S OR DOWN ARROW', 
                                                 App.Game.settings.hud.smallFont, 
                                                 '#245400', 
                                                 112, 
@@ -67,7 +85,7 @@
                                         );
 
                                         App.Draw.get('hud').writeTextMultiLine(
-                                                'Controls:|Flap - W or Up Arrow|Dive - S or Down Arrow', 
+                                                'CONTROLS:|FLAP - W OR UP ARROW|DIVE - S OR DOWN ARRIW', 
                                                 App.Game.settings.hud.smallFont, 
                                                 '#D2FFBF', 
                                                 110, 
@@ -95,10 +113,97 @@
                         tick: {
                                 draw: function(interpolation, moveDelta) {
                                         App.Game.centerCamera(interpolation, moveDelta);
+                                        App.Defs.Huds.displayScore();
                                 },
 
                                 update: function() {
                                         App.Game.gameplayOps();
+
+                                        if(App.Game.score >= 16) {
+                                                App.Game.score = 0;
+                                                App.Game.level++;
+                                                App.Game.setGameState('transition', function(){
+                                                        App.Game.defaultDir = { x: 1, y: 0 };
+                                                });
+                                        }
+
+                                        var xDir = 0, 
+                                            yDir = 0, 
+                                            newPos = {}, 
+                                            player = App.World.getPlayer(0);
+
+                                        xDir = App.Game.defaultDir.x;
+                                        yDir = App.Game.defaultDir.y;
+
+                                        if(player.c('Hurtable').isDead()) {
+                                                yDir = 1;
+                                                xDir = 0;
+                                        }
+
+                                        if(App.Controls.keyDown('W') || App.Controls.keyDown('ARROW_UP')) {
+                                                yDir -= 2;
+                                        }
+                                        if(App.Controls.keyDown('S') || App.Controls.keyDown('ARROW_DOWN')) {
+                                                yDir += 1;
+                                        }
+
+                                        newPos = player.c('Movable').move(xDir, yDir);
+
+                                        if(!_.isUndefined(newPos.collisions) && newPos.collisions.length) {
+                                                player.c('Hurtable').takeDamage(1);
+                                        }
+                                }
+                        }
+                }, 
+
+                transition: {
+
+                        tick: {
+                                draw: function(interpolation, moveDelta) {
+                                        App.Game.centerCamera(interpolation, moveDelta);
+
+                                        App.Defs.Huds.displayScore();
+
+                                        App.Draw.get('hud').writeText(
+                                                'LEVEL_COMPLETE', 
+                                                App.Game.settings.hud.largeFont, 
+                                                '#FFF', 
+                                                63, 
+                                                203
+                                        );
+
+                                        App.Draw.get('hud').writeText(
+                                                'LEVEL_COMPLETE', 
+                                                App.Game.settings.hud.largeFont, 
+                                                '#54C200', 
+                                                60, 
+                                                200
+                                        );
+
+                                        App.Draw.get('hud').writeText(
+                                                'GET READY_', 
+                                                App.Game.settings.hud.normalFont, 
+                                                '#245400', 
+                                                222, 
+                                                262
+                                        );
+
+                                        App.Draw.get('hud').writeText(
+                                                'GET READY_', 
+                                                App.Game.settings.hud.normalFont, 
+                                                '#FFF', 
+                                                220, 
+                                                260
+                                        );
+                                },
+
+                                update: function() {
+                                        App.Game.gameplayOps();
+
+                                        App.World.getPlayer(0).c('Movable').move(
+                                                App.Game.defaultDir.x, 
+                                                App.Game.defaultDir.y
+                                        );
                                 }
                         }
                 }, 
@@ -109,8 +214,13 @@
                                 draw: function(interpolation, moveDelta) {
                                         App.Game.centerCamera(interpolation, moveDelta);
 
+                                        var level = App.Game.level + '', 
+                                            score = App.Game.score + '', 
+                                            bLevel = App.Game.best.level + '', 
+                                            bScore = App.Game.best.score + '';
+
                                         App.Draw.get('hud').writeText(
-                                                'GAME OVER', 
+                                                'GAME_OVER', 
                                                 App.Game.settings.hud.largeFont, 
                                                 '#FFF', 
                                                 163, 
@@ -118,7 +228,7 @@
                                         );
 
                                         App.Draw.get('hud').writeText(
-                                                'GAME OVER', 
+                                                'GAME_OVER', 
                                                 App.Game.settings.hud.largeFont, 
                                                 '#54C200', 
                                                 160, 
@@ -126,7 +236,7 @@
                                         );
 
                                         App.Draw.get('hud').writeTextMultiLine(
-                                                'SCORE: 0| BEST: 0', 
+                                                'LEVEL: ' + level + '|SCORE: ' + score + '| BEST: L' + bLevel + 'S' + bScore, 
                                                 App.Game.settings.hud.normalFont, 
                                                 '#245400', 
                                                 212, 
@@ -135,7 +245,7 @@
                                         );
 
                                         App.Draw.get('hud').writeTextMultiLine(
-                                                'SCORE: 0| BEST: 0', 
+                                                'LEVEL: ' + level + '|SCORE: ' + score + '| BEST: L' + bLevel + 'S' + bScore, 
                                                 App.Game.settings.hud.normalFont, 
                                                 '#FFF', 
                                                 210, 
@@ -144,7 +254,7 @@
                                         );
 
                                         App.Draw.get('hud').writeText(
-                                                'Press R to Restart', 
+                                                'PRESS R TO (R)ESTART_', 
                                                 App.Game.settings.hud.smallFont, 
                                                 '#245400', 
                                                 162, 
@@ -152,7 +262,7 @@
                                         );
 
                                         App.Draw.get('hud').writeText(
-                                                'Press R to Restart', 
+                                                'PRESS R TO (R)ESTART_',
                                                 App.Game.settings.hud.smallFont, 
                                                 '#D2FFBF', 
                                                 160, 
@@ -164,9 +274,16 @@
 
                                         App.Game.gameplayOps();
 
+                                        App.World.getPlayer(0).c('Movable').move(
+                                                App.Game.defaultDir.x, 
+                                                App.Game.defaultDir.y
+                                        );
+
                                         if(App.Controls.keyDown('R')) {
                                                 App.Game.setGameState('gamestart', function(){ 
                                                         App.World.loadMap(0);
+                                                        App.Game.score = 0;
+                                                        App.Game.level = 1;
                                                 });
                                         }
                                 }

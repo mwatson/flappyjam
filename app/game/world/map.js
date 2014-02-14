@@ -102,13 +102,13 @@
 
                         // add in columns (evenly spaced)
                         for(y = 0; y < height; y++) {
-                                for(x = 20; x < width - 6; x += 6) {
+                                for(x = 32; x < width - 64; x += 6) {
                                         this.columns['col_' + x] = x;
+                                        App.Game.colScore['col_' + x] = false;
                                 }
                         }
 
-                        var c, st = 2, lst = 0, firstSt = null, 
-                            lastCol = _.last(_.keys(this.columns));
+                        var c, st = 2, lst = 0;
                         _.each(this.columns, function(val, key){
 
                                 st = App.Tools.rand(1, 4);
@@ -118,14 +118,6 @@
                                         } else {
                                                 st++;
                                         }
-                                }
-
-                                if(_.isNull(firstSt)) {
-                                        firstSt = st;
-                                }
-
-                                if(key == lastCol) {
-                                        st = firstSt;
                                 }
 
                                 grid[st][val] = 1;
@@ -168,12 +160,12 @@
                         for(y = 0; y < this.bgGrid.length; y++) {
                                 for(x = 0; x < this.bgGrid[y].length; x++) {
                                         App.Draw.get('background').strokeFillRect(
-                                                x * this.tileSize, 
-                                                y * this.tileSize + 32, 
-                                                this.tileSize, 
-                                                this.tileSize, 
-                                                '#000', 
-                                                '#004000', 
+                                                x * this.tileSize + 24, 
+                                                y * this.tileSize + 20, 
+                                                this.tileSize * 2, 
+                                                this.tileSize * 2, 
+                                                settings.rows[0].fgColor, 
+                                                settings.rows[0].bgColor, 
                                                 2
                                         );
                                 }

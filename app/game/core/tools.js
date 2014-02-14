@@ -10,7 +10,7 @@
                         console.log(arguments);
                 };
 
-                this.debugColor = '#000';
+                this.debugColor = '#FFF';
 
                 this.printFPS = function(ontoLayer, counts) {
                         var avgs = {};

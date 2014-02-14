@@ -290,51 +290,46 @@
 
                 this.defaultDir = { x: 0, y: 0 };
 
+                this.level = 1;
+                this.score = 0;
+
+                this.best = {
+                        score: -1,
+                        level: 0
+                };
+
+                this.colScore = {};
+
                 this.playerOps = function() {
                         var player = App.World.getPlayer(0), 
                             camera = App.World.getCamera(), 
-                            xDir = 0, 
-                            yDir = 0, 
-                            newPos = {}, 
-                            collisions = [], 
-                            cursor, 
-                            diff;
+                            diff, 
+                            gridX;
 
-                        xDir = this.defaultDir.x;
-                        yDir = this.defaultDir.y;
+                        if(player.attrs.x > 144 * 64) {
+                                diff = player.attrs.x - 144 * 64;
+                                player.c('Movable').setLastPos(8 * 64 + diff - 12, -1);
+                                camera.c('Movable').setLastPos(8 * 64 + diff - 12 - 16, -1);
+                                player.attrs.x = 8 * 64 + diff;
+                                camera.attrs.x = 8 * 64 + diff - 16;
 
-                        if(App.Controls.keyDown('W') || App.Controls.keyDown('ARROW_UP')) {
-                                yDir -= 2;
-                        }
-                        if(App.Controls.keyDown('S') || App.Controls.keyDown('ARROW_DOWN')) {
-                                yDir += 1;
-                        }
-                        if(App.Controls.keyPress('SPACE') || App.Controls.keyPress('ENTER')) {
-                        }
+                                _.each(this.colScore, function(val, key){
+                                        self.colScore[key] = false;
+                                });
 
-                        if(App.Controls.mouseClick('BUTTON_LEFT')) {
-                                cursor = App.Controls.mouseCursor();
-                                player.c('HasProjectile').fire(cursor.x, cursor.y);
-                        }
-                        if(App.Controls.mouseClick('BUTTON_RIGHT')) {
+                                App.Game.setGameState('gameplay', function(){
+                                        App.Game.score = 0;
+                                        App.Game.level++;
+                                        App.Game.defaultDir = { x: 1, y: 1 };
+                                });
                         }
 
-                        if(player.c('Hurtable').isDead()) {
-                                yDir = 1;
-                                xDir = 0;
-                        }
-
-                        if(player.attrs.x > 56 * 64) {
-                                diff = player.attrs.x - 56 * 64;
-                                player.c('Movable').setLastPos(20 * 64 + diff - 10, -1);
-                                player.attrs.x = 20 * 64 + diff;
-                                camera.attrs.x = 20 * 64 + diff;
-                        }
-
-                        newPos = player.c('Movable').move(xDir, yDir);
-
-                        if(!_.isUndefined(newPos.collisions) && newPos.collisions.length) {
-                                player.c('Hurtable').takeDamage(1);
+                        gridX = Math.floor(player.attrs.x / 64);
+                        if(!_.isUndefined(this.colScore['col_' + gridX])) {
+                                if(!this.colScore['col_' + gridX]) {
+                                        this.score++;
+                                        this.colScore['col_' + gridX] = true;
+                                }
                         }
                 };
         };
