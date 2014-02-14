@@ -107,13 +107,27 @@
                                 }
                         }
 
-                        var c, st = 2, lst = 0;
+                        var c, st = 2, lst = 0, firstSt = null, 
+                            lastCol = _.last(_.keys(this.columns));
                         _.each(this.columns, function(val, key){
-                                while(Math.abs(st - lst) > 2) {
-                                        st--;
-                                }
 
                                 st = App.Tools.rand(1, 4);
+                                while(Math.abs(st - lst) > 2) {
+                                        if(st > lst) { 
+                                                st--;
+                                        } else {
+                                                st++;
+                                        }
+                                }
+
+                                if(_.isNull(firstSt)) {
+                                        firstSt = st;
+                                }
+
+                                if(key == lastCol) {
+                                        st = firstSt;
+                                }
+
                                 grid[st][val] = 1;
                                 c = st - 1;
                                 while(c > 0) {
@@ -153,19 +167,14 @@
 
                         for(y = 0; y < this.bgGrid.length; y++) {
                                 for(x = 0; x < this.bgGrid[y].length; x++) {
-                                        App.Draw.get('background').fillRect(
+                                        App.Draw.get('background').strokeFillRect(
                                                 x * this.tileSize, 
                                                 y * this.tileSize + 32, 
                                                 this.tileSize, 
                                                 this.tileSize, 
-                                                '#061400'
-                                        );
-                                        App.Draw.get('background').fillRect(
-                                                x * this.tileSize, 
-                                                y * this.tileSize + 32, 
-                                                this.tileSize - 18, 
-                                                this.tileSize - 18, 
-                                                '#000'
+                                                '#000', 
+                                                '#004000', 
+                                                2
                                         );
                                 }
                         }

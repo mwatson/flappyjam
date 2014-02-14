@@ -20,6 +20,7 @@
                                 Movable: {
                                         acceleration: 0.2
                                 }, 
+                                /*
                                 Collidable: {
                                         method: 'cross', 
                                         setup: {
@@ -27,6 +28,7 @@
                                                 y: { x: 10, y: 0, width: 32, height: 48 }
                                         }
                                 }, 
+                                */
                                 IsPlayer: {
                                 }, 
                                 Hurtable: {

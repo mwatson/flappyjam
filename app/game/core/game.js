@@ -151,6 +151,7 @@
                 this.gameSpeed = 50;
 
                 this.lastDraw = null;
+                var plax = -1, plAccum = 0;
                 this.drawOps = function() {
 
                         var curTime = this.gameTicks(), 
@@ -172,6 +173,22 @@
                                 App.Tools.printPlayerPos('hud', App.World.getPlayer());
                         }
 
+                        /*
+                        if(plAccum >= 25) {
+                                App.Draw.get('background').parallax.x += (0.02 * plax);
+                                App.Draw.get('background').parallax.y += (0.02 * plax);
+                                if(App.Draw.get('background').parallax.x <= 0.45) {
+                                        plax = 1;
+                                }
+                                if(App.Draw.get('background').parallax.x >= 0.85) {
+                                        plax = -1;
+                                }
+                                plAccum = 0;
+                                console.log(App.Draw.get('background').parallax);
+                        }
+                        plAccum += (curTime - this.lastUpdate);
+                        */
+
                         //
                         // this should be at the end of the loop
                         //
@@ -188,7 +205,7 @@
                         // attempt to keep the player centered
                         var camera = App.World.map.camera, 
                             cameraCenter = camera.center(), 
-                            originX = -((cameraCenter.x + camera.attrs.velocity.x * interpolation * moveDelta) - (App.Draw.width() / 2) + 160), 
+                            originX = -((cameraCenter.x + camera.attrs.velocity.x * interpolation * moveDelta) - (App.Draw.width() / 2) + 260), 
                             originY = -((cameraCenter.y + camera.attrs.velocity.y * interpolation * moveDelta) - (App.Draw.height() / 2));
 
                         App.Draw.setOrigin(~~originX, ~~originY);
