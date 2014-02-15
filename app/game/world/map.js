@@ -207,7 +207,8 @@
                 };
 
                 this.pool = {
-                        projectile: []
+                        projectile: [], 
+                        particle: []
                 };
 
                 this.spawn = function(name, x, y) {

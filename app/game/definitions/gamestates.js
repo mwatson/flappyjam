@@ -40,25 +40,7 @@
                                         );
 
                                         App.Draw.get('hud').writeTextMultiLine(
-                                                'A CYBERPUNK THRILLER_', 
-                                                App.Game.settings.hud.normalFont, 
-                                                '#245400', 
-                                                72, 
-                                                152, 
-                                                38
-                                        );
-
-                                        App.Draw.get('hud').writeTextMultiLine(
-                                                'A CYBERPUNK THRILLER_', 
-                                                App.Game.settings.hud.normalFont, 
-                                                '#FFF', 
-                                                70, 
-                                                150, 
-                                                38
-                                        );
-
-                                        App.Draw.get('hud').writeTextMultiLine(
-                                                '> FLAP TO BEGIN_', 
+                                                '> FLAP TO BOOT BIRD', 
                                                 App.Game.settings.hud.smallFont, 
                                                 '#245400', 
                                                 122, 
@@ -67,7 +49,7 @@
                                         );
 
                                         App.Draw.get('hud').writeTextMultiLine(
-                                                '> FLAP TO BEGIN_', 
+                                                '> FLAP TO BOOT BIRD', 
                                                 App.Game.settings.hud.smallFont, 
                                                 '#FFF', 
                                                 120, 

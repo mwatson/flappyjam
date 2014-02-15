@@ -548,4 +548,28 @@
 
         root.App.Objects.Components.IsCamera = isCamera;
 
+        var particle = function(entity, settings) {
+
+                this.en = entity;
+
+                var startState = settings.startState, 
+                    endState   = settings.endState;
+
+                this.behavior = function() {
+                };
+
+                if(settings.behavior) {
+                        this.behavior = settings.behavior;
+                }
+        };
+
+        root.App.Objects.Components.Particle = particle;
+
+        var emitter = function(entity, settings) {
+
+                this.en = entity;
+        };
+
+        root.App.Objects.Components.Emitter = emitter;
+
 })(this);

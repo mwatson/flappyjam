@@ -29,6 +29,23 @@
                                 }, 
                                 IsPlayer: {
                                 }, 
+                                Emitter: {
+                                        particles: [{
+                                                ttl: 500, 
+                                                startState: {
+                                                        width: 24, 
+                                                        height: 24, 
+                                                        color: '#5FDB00', 
+                                                        speed: 0
+                                                }, 
+                                                endState: {
+                                                        width: 8, 
+                                                        height: 8, 
+                                                        color: '#5FDB00', 
+                                                        speed: 0
+                                                }
+                                        }]
+                                }, 
                                 Hurtable: {
                                         health: 1, 
                                         onDeath: function() {
@@ -99,6 +116,23 @@
                                 Collidable: {
                                 }, 
                                 Projectile: {
+                                }
+                        }
+                }, 
+
+                particle: {
+                        width: 0, 
+                        height: 0, 
+                        speed: 0, 
+                        components: {
+                                Renderable: {
+                                        color: '#FFF'
+                                },
+                                Movable: {
+                                }, 
+                                Collidable: {
+                                }, 
+                                Particle: {
                                 }
                         }
                 }
