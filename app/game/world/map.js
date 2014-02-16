@@ -14,20 +14,6 @@
 
                 this.levelColors = {};
 
-                // not really a quadtree
-                this.quadtree = [];
-                this.quadWidth = 10;
-
-                // Dijkstra maps 
-                this.dMaps = {
-                        player: []
-                };
-
-                // Dijkstra map paths
-                this.dPaths = {
-                        player: []
-                };
-
                 this.entityMap = {};
 
                 this.bounds = {};
@@ -223,25 +209,6 @@
 
                         entity = new App.Objects.Entity(props);
 
-                        // figure out which quad this goes into
-                        for(var i = 0; i < this.quadtree.length; i++) {
-                                if(App.Tools.boxesIntersect(
-                                        props.x, 
-                                        props.y, 
-                                        props.width, 
-                                        props.height, 
-                                        this.quadtree[i].x, 
-                                        this.quadtree[i].y, 
-                                        this.quadtree[i].w, 
-                                        this.quadtree[i].h
-                                )) {
-                                        if(entity.is('Collidable')) {
-                                                entity.c('Collidable').quadIds.push(i);
-                                                this.quadtree[i].addChild(props.id - 1);
-                                        }
-                                }
-                        }
-
                         this.entities.push(entity);
 
                         return props.id;
@@ -259,6 +226,7 @@
                         }
 
                         if(pId === false) {
+                                // spawn a new thing?!
                                 //pId = self.spawn('bullet', 0, 0);
                                 //self.entities[pId].removed = true;
                                 //self.pool.projectile.push(pId);
@@ -287,10 +255,6 @@
                         for(i = 0; i < this.entities.length; i++) {
                                 //this.entities[i].shutdown();
                                 delete this.entities[i];
-                        }
-
-                        for(i = 0; i < this.quadtree.length; i++) {
-                                delete this.quadtree[i];
                         }
                 };
 
@@ -332,29 +296,6 @@
 
                         self.createBackgroundGrid(width, height, settings.rows);
 
-                        self.quadWidth = 6;
-
-                        // set up the "quadtree"
-                        // this is based on the map's dimensions in pixels, not tiles
-                        var mapWidth = settings.width * self.tileSize, 
-                            mapHeight = settings.height * self.tileSize, 
-                            branchWidth  = Math.ceil(mapWidth / self.quadWidth), 
-                            quadHeight = Math.ceil(mapHeight / branchWidth), 
-                            branchHeight = Math.ceil(mapHeight / quadHeight);
-                        
-                        for(var y = 0; y < quadHeight; y++) {
-                                for(var x = 0; x < self.quadWidth; x++) {
-                                        self.quadtree.push(
-                                                new App.Objects.QuadTree(
-                                                        x * branchWidth, 
-                                                        y * branchHeight, 
-                                                        branchWidth, 
-                                                        branchHeight 
-                                                )
-                                        );
-                                }
-                        }
-
                         // generate the map
                         if(!settings.blockers.length) {
                                 self.grid = self.generateBlockers(
@@ -393,46 +334,17 @@
                         self.width  = settings.width;
                         self.height = settings.height;
 
-                        // allocate the projectile pool
+                        // allocate the particle pool
                         var pId;
                         for(var i = 0; i < 50; i++) {
-                                pId = self.spawn('bullet', 0, 0);
+                                pId = self.spawn('particle', 0, 0);
                                 self.entities[pId].removed = true;
-                                self.pool.projectile.push(pId);
+                                self.pool.particle.push(pId);
                         }
-
-                        //self.generateDMap('player', [ { x: 2, y: 2 } ]);
 
                 })(settings, this);
         };
 
         root.App.Objects.Map = map;
-
-        var quadTree = function(x, y, width, height) {
-                this.x = x;
-                this.y = y;
-                this.w = width;
-                this.h = height;
-                this.children = {};
-
-                this.addChild = function(childId) {
-                        this.children[childId] = childId;
-                };
-
-                this.removeChild = function(childId) {
-                        if(!_.isUndefined(this.children[childId])) {
-                                delete this.children[childId];
-                                return true;
-                        }
-                        return false;
-                };
-
-                this.clear = function() {
-                        delete this.children;
-                        this.children = {};
-                };
-        };
-
-        root.App.Objects.QuadTree = quadTree;
 
 })(this);

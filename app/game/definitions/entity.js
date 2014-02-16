@@ -7,15 +7,13 @@
                 //
 
                 player: {
-                        width: 48, 
+                        width: 64, 
                         height: 48, 
                         speed: 12, 
                         components: {
                                 Renderable: {
                                         color: '#5FDB00', 
-                                        hasTrail: true, 
-                                        trail: function() {
-                                        }
+                                        sprites: 'player'
                                 }, 
                                 Movable: {
                                         acceleration: 0.2
@@ -23,32 +21,39 @@
                                 Collidable: {
                                         method: 'cross', 
                                         setup: {
-                                                x: { x: 0, y: 10, width: 48, height: 32 }, 
-                                                y: { x: 10, y: 0, width: 32, height: 48 }
+                                                x: { x: 0, y: 8, width: 64, height: 32 }, 
+                                                y: { x: 8, y: 0, width: 32, height: 48 }
                                         }
                                 }, 
                                 IsPlayer: {
                                 }, 
                                 Emitter: {
                                         particles: [{
-                                                ttl: 500, 
+                                                spawnOffset: { x: 24, y: 8 }, 
+                                                rate: 50, 
+                                                dir: { x: 1, y: 0 }, 
+                                                ttl: 220, 
                                                 startState: {
                                                         width: 24, 
                                                         height: 24, 
-                                                        color: '#5FDB00', 
-                                                        speed: 0
+                                                        color: { r: 95, g: 219, b: 0 }, 
+                                                        speed: 8
                                                 }, 
                                                 endState: {
                                                         width: 8, 
                                                         height: 8, 
-                                                        color: '#5FDB00', 
-                                                        speed: 0
+                                                        color: { r: 210, g: 255, b: 191 }, 
+                                                        speed: 8
                                                 }
                                         }]
                                 }, 
                                 Hurtable: {
                                         health: 1, 
                                         onDeath: function() {
+                                                if(this.en.is('Emitter')) {
+                                                        this.en.c('Emitter').disable();
+                                                }
+
                                                 App.Game.setGameState('gameover', function(){
                                                         App.Game.defaultDir = { x: 0, y: 1 };
                                                         if(App.Game.level >= App.Game.best.level) {
@@ -129,6 +134,7 @@
                                         color: '#FFF'
                                 },
                                 Movable: {
+                                        acceleration: 0.2
                                 }, 
                                 Collidable: {
                                 }, 

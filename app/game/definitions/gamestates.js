@@ -58,19 +58,19 @@
                                         );
 
                                         App.Draw.get('hud').writeTextMultiLine(
-                                                'CONTROLS:|FLAP - W OR UP ARROW|Dive - S OR DOWN ARROW', 
+                                                'CONTROLS:|FLAP - (W) OR (UP ARROW)|Dive - (S) OR (DOWN ARROW)', 
                                                 App.Game.settings.hud.smallFont, 
                                                 '#245400', 
-                                                112, 
+                                                82, 
                                                 352, 
                                                 32
                                         );
 
                                         App.Draw.get('hud').writeTextMultiLine(
-                                                'CONTROLS:|FLAP - W OR UP ARROW|DIVE - S OR DOWN ARRIW', 
+                                                'CONTROLS:|FLAP - (W) OR (UP ARROW)|DIVE - (S) OR (DOWN ARROW)', 
                                                 App.Game.settings.hud.smallFont, 
                                                 '#D2FFBF', 
-                                                110, 
+                                                80, 
                                                 350, 
                                                 32
                                         );
@@ -218,7 +218,7 @@
                                         );
 
                                         App.Draw.get('hud').writeTextMultiLine(
-                                                'LEVEL: ' + level + '|SCORE: ' + score + '| BEST: L' + bLevel + 'S' + bScore, 
+                                                'LEVEL: ' + level + '|SCORE: ' + score + '| BEST: L' + bLevel + ' S' + bScore, 
                                                 App.Game.settings.hud.normalFont, 
                                                 '#245400', 
                                                 212, 
@@ -227,7 +227,7 @@
                                         );
 
                                         App.Draw.get('hud').writeTextMultiLine(
-                                                'LEVEL: ' + level + '|SCORE: ' + score + '| BEST: L' + bLevel + 'S' + bScore, 
+                                                'LEVEL: ' + level + '|SCORE: ' + score + '| BEST: L' + bLevel + ' S' + bScore, 
                                                 App.Game.settings.hud.normalFont, 
                                                 '#FFF', 
                                                 210, 
@@ -236,7 +236,7 @@
                                         );
 
                                         App.Draw.get('hud').writeText(
-                                                'PRESS R TO (R)ESTART_', 
+                                                'PRESS (R) TO RESTART_', 
                                                 App.Game.settings.hud.smallFont, 
                                                 '#245400', 
                                                 162, 
@@ -244,7 +244,7 @@
                                         );
 
                                         App.Draw.get('hud').writeText(
-                                                'PRESS R TO (R)ESTART_',
+                                                'PRESS (R) TO RESTART_',
                                                 App.Game.settings.hud.smallFont, 
                                                 '#D2FFBF', 
                                                 160, 

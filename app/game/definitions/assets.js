@@ -16,15 +16,10 @@
                 ], 
 
                 Images: [
-                        { name: 'player_base01', rel: 'img/player/player_1_1.png' }, 
-                        { name: 'player_shades01', rel: 'img/player/greenshades_1_1.png' }, 
-
-                        { name: 'grunt_base01', rel: 'img/gruntdrop/base01.png' },
-                        { name: 'grunt_shades01', rel: 'img/gruntdrop/shades.png' },
-
-                        { name: 'shadow_64', rel: 'img/shadow01.png' }, 
-
-                        { name: 'crosshair01', rel: 'img/crosshair01.png' }
+                        { name: 'player_base01', rel: 'img/player/playerbase_1_1.png' }, 
+                        { name: 'player_wing01', rel: 'img/player/playerwing_1_1.png' }, 
+                        { name: 'player_wing02', rel: 'img/player/playerwing_1_2.png' }, 
+                        { name: 'player_wing03', rel: 'img/player/playerwing_1_3.png' }
                 ], 
 
                 CompositeImages: [
@@ -34,42 +29,25 @@
                         //
                         { name: 'player_idle_frame01', 
                           images: [ 
-                                { frame: 'player_base01', offset: { x: 0, y: 0 } }, 
-                                { frame: 'player_shades01', offset: { x: 4, y: 16 } }
+                                { frame: 'player_base01', offset: { x: 0, y: 0 } }
                           ]
                         }, 
-                        { name: 'player_right_frame01', // walking right
+                        { name: 'player_right_frame01',
                           images: [ 
                                 { frame: 'player_base01', offset: { x: 0, y: 0 } }, 
-                                { frame: 'player_shades01', offset: { x: 8, y: 16 } }
+                                { frame: 'player_wing01', offset: { x: 0, y: 0 } }
                           ]
                         },
-                        { name: 'player_left_frame01', // walking left
+                        { name: 'player_right_frame02',
                           images: [ 
                                 { frame: 'player_base01', offset: { x: 0, y: 0 } }, 
-                                { frame: 'player_shades01', offset: { x: 0, y: 16 } }
+                                { frame: 'player_wing02', offset: { x: 0, y: 0 } }
                           ]
                         },
-
-                        //
-                        // Gruntdrop
-                        //
-                        { name: 'grunt_idle_frame01', 
+                        { name: 'player_right_frame03',
                           images: [ 
-                                { frame: 'grunt_base01', offset: { x: 0, y: 0 } }, 
-                                { frame: 'grunt_shades01', offset: { x: 8, y: 16 } }
-                          ]
-                        }, 
-                        { name: 'grunt_right_frame01', 
-                          images: [ 
-                                { frame: 'grunt_base01', offset: { x: 0, y: 0 } }, 
-                                { frame: 'grunt_shades01', offset: { x: 12, y: 16 } }
-                          ]
-                        },
-                        { name: 'grunt_left_frame01', 
-                          images: [ 
-                                { frame: 'grunt_base01', offset: { x: 0, y: 0 } }, 
-                                { frame: 'grunt_shades01', offset: { x: 4, y: 16 } }
+                                { frame: 'player_base01', offset: { x: 0, y: 0 } }, 
+                                { frame: 'player_wing03', offset: { x: 0, y: 0 } }
                           ]
                         },
                 ], 

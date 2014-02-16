@@ -128,20 +128,6 @@
                             xPos = en.attrs.x + en.attrs.velocity.x * interpolation * moveDelta, 
                             yPos = en.attrs.y + en.attrs.velocity.y * interpolation * moveDelta;
 
-                        if(en.is('IsPlayer')) {
-                                //console.log(yPos, en.attrs.velocity.y, interpolation, moveDelta);
-                                //console.log(en.attrs.velocity.x, en.attrs.velocity.y);
-                        }
-
-                        // draw their shadow
-                        if(this.attrs.shadow) {
-                                App.Draw.get(canvasId).drawImg(
-                                        this.attrs.shadow, 
-                                        xPos, 
-                                        yPos + en.attrs.height - 8
-                                );
-                        }
-
                         if(this.attrs.sprites) {
 
                                 // figure out the frame based on the state
@@ -181,20 +167,9 @@
                                 );
                         }
 
-                        /*
-                        var bbox = en.c('Collidable').bBox, 
-                            axes = [ 'x', 'y' ];
-
-                        for(var i = 0; i < axes.length; i++) {
-                                App.Draw.get(canvasId).fillRect(
-                                        bbox.x(axes[i]), 
-                                        bbox.y(axes[i]), 
-                                        bbox.w(axes[i]), 
-                                        bbox.h(axes[i]), 
-                                        '#000'
-                                );
+                        if(!_.isUndefined(settings.draw)) {
+                                settings.draw(xPos, yPos);
                         }
-                        */
                 };
         };
 
@@ -397,7 +372,7 @@
 
         var hurtable = function(entity, settings) {
 
-                var en = entity;
+                this.en = entity;
 
                 this.health = settings.health;
                 this.onDeath = function() { };
@@ -552,15 +527,74 @@
 
                 this.en = entity;
 
-                var startState = settings.startState, 
-                    endState   = settings.endState;
+                var startState, endState, ttl, ctr, curCol;
 
-                this.behavior = function() {
+                // init should be called for anything spawned via a pool
+                this.init = function(settings) {
+                        startState = settings.startState;
+                        endState = settings.endState;
+                        ttl = settings.ttl;
+                        ctr = 0;
+
+                        this.en.attrs.width = startState.width;
+                        this.en.attrs.height = startState.height;
+                        this.en.attrs.speed = startState.speed;
+                        this.en.c('Renderable').attrs.color = 
+                                'rgba(' + startState.color.r + ',' + 
+                                          startState.color.g + ',' + 
+                                          startState.color.b + ',1.0)';
+
+                        curCol = _.clone(startState.color);
                 };
 
-                if(settings.behavior) {
-                        this.behavior = settings.behavior;
-                }
+                this.behavior = function() {
+
+                        var diff = App.Game.gameTicks() - App.Game.lastUpdate, 
+                            dpct, 
+                            tdiff, 
+                            colStr, 
+                            self = this;
+
+                        ctr += diff;
+
+                        if(ctr >= ttl) {
+                                this.en.removeEntity();
+                                return;
+                        }
+
+                        dpct = diff / ttl;
+                        _.each(startState, function(val, key){
+                                switch(key) {
+                                        case 'width':
+                                        case 'height':
+                                        case 'speed':
+                                                tdiff = (startState[key] - endState[key]) * dpct;
+                                                self.en.attrs[key] -= tdiff;
+                                                if(key == 'width') {
+                                                        self.en.attrs.x -= (tdiff / 2);
+                                                } else if(key == 'height') {
+                                                        self.en.attrs.y -= (tdiff / 2);
+                                                }
+                                                break;
+
+                                        case 'color':
+                                                colStr = [];
+                                                _.each(startState.color, function(colVal, colName){
+                                                        tdiff = (startState.color[colName] - endState.color[colName]) * dpct;
+                                                        curCol[colName] -= tdiff;
+                                                        colStr.push(Math.floor(curCol[colName]));
+                                                });
+                                                self.en.c('Renderable').attrs.color = 'rgba(' + colStr.join() + ',1.0)';
+                                                //console.log(curCol);
+                                                break;
+                                }
+                        });
+
+                        this.en.c('Movable').move(
+                                this.en.attrs.dir.x,
+                                this.en.attrs.dir.y
+                        );
+                };
         };
 
         root.App.Objects.Components.Particle = particle;
@@ -568,6 +602,49 @@
         var emitter = function(entity, settings) {
 
                 this.en = entity;
+                var particles = settings.particles, 
+                    ctr = [], 
+                    enabled = true;
+
+                for(var i = 0; i < particles.length; i++) {
+                        ctr.push(0);
+                }
+
+                this.behavior = function() {
+
+                        var pId, diff;
+
+                        if(!enabled) {
+                                return;
+                        }
+
+                        diff = (App.Game.gameTicks() - App.Game.lastUpdate);
+
+                        for(var i = 0; i < particles.length; i++) {
+                                ctr[i] += diff;
+                                if(ctr[i] >= particles[i].rate) {
+                                        pId = App.World.map.fromPool(
+                                                'particle', 
+                                                this.en.attrs.x + particles[i].spawnOffset.x, 
+                                                this.en.attrs.y + particles[i].spawnOffset.y
+                                        );
+                                        App.World.map.entities[pId].c('Particle').init(particles[i]);
+                                        App.World.map.entities[pId].attrs.velocity.x = this.en.attrs.velocity.x;
+                                        App.World.map.entities[pId].attrs.velocity.y = this.en.attrs.velocity.y;
+                                        App.World.map.entities[pId].attrs.dir.x = particles[i].dir.x;
+                                        App.World.map.entities[pId].attrs.dir.y = particles[i].dir.y;
+                                        ctr[i] = 0;
+                                }
+                        }
+                };
+
+                this.enable = function() {
+                        enabled = true;
+                };
+
+                this.disable = function() {
+                        enabled = false;
+                };
         };
 
         root.App.Objects.Components.Emitter = emitter;

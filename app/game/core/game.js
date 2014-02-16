@@ -285,6 +285,14 @@
                                 if(App.World.map.entities[i].is('IsCamera')) {
                                         App.World.map.entities[i].c('IsCamera').behavior();
                                 }
+
+                                if(App.World.map.entities[i].is('Particle')) {
+                                        App.World.map.entities[i].c('Particle').behavior();
+                                }
+
+                                if(App.World.map.entities[i].is('Emitter')) {
+                                        App.World.map.entities[i].c('Emitter').behavior();
+                                }
                         }
                 };
 
@@ -306,6 +314,10 @@
                             diff, 
                             gridX;
 
+                        if(player.is('Emitter')) {
+                                player.c('Emitter').behavior();
+                        }
+
                         if(player.attrs.x > 144 * 64) {
                                 diff = player.attrs.x - 144 * 64;
                                 player.c('Movable').setLastPos(8 * 64 + diff - 12, -1);
@@ -325,7 +337,7 @@
                         }
 
                         gridX = Math.floor(player.attrs.x / 64);
-                        if(!_.isUndefined(this.colScore['col_' + gridX])) {
+                        if(!_.isUndefined(this.colScore['col_' + gridX]) && !player.c('Hurtable').isDead()) {
                                 if(!this.colScore['col_' + gridX]) {
                                         this.score++;
                                         this.colScore['col_' + gridX] = true;
