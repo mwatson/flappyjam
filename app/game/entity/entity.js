@@ -111,7 +111,12 @@
                         shadow: _.isUndefined(settings.shadow) ? false : settings.shadow
                 };
 
-                var en = entity;
+                var en = entity, 
+                    // store the state for sprites
+                    curState = '', 
+                    prevState = '', 
+                    curFrame = 0, 
+                    frameCtr = 0;
 
                 this.draw = function(interpolation, canvasId, moveDelta) {
 
@@ -126,12 +131,13 @@
                         var lastPos = en.c('Movable').getLastPos(), 
                             xDir = en.attrs.x - lastPos.x, 
                             xPos = en.attrs.x + en.attrs.velocity.x * interpolation * moveDelta, 
-                            yPos = en.attrs.y + en.attrs.velocity.y * interpolation * moveDelta;
+                            yPos = en.attrs.y + en.attrs.velocity.y * interpolation * moveDelta, 
+                            diff = App.Game.gameTicks() - App.Game.lastUpdate;
 
                         if(this.attrs.sprites) {
 
                                 // figure out the frame based on the state
-                                var curState = 'idle';
+                                curState = 'idle';
                                 if(en.state == 'walk') {
 
                                         if(en.attrs.dir.x == 1) {
@@ -149,12 +155,30 @@
                                         curState = 'idle';
                                 }
 
+                                if(curState != prevState) {
+                                        // reset frame counter
+                                        curFrame = 0;
+                                        frameCtr = 0;
+                                        prevState = curState;
+                                }
+
+                                frameCtr += diff;
+                                if(frameCtr > this.attrs.sprites[curState][curFrame].duration) {
+                                        curFrame++;
+                                        frameCtr = 0;
+                                }
+
+                                if(_.isUndefined(this.attrs.sprites[curState][curFrame])) {
+                                        curFrame = 0;
+                                }
+
+                                //console.log(curState, curFrame, frameCtr);
+
                                 App.Draw.get(canvasId).drawImg(
-                                        this.attrs.sprites[curState][0].frame, 
+                                        this.attrs.sprites[curState][curFrame].frame, 
                                         xPos, 
                                         yPos
                                 );
-
 
                         } else {
 
