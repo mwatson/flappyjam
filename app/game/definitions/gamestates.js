@@ -78,10 +78,7 @@
 
                                 update: function() {
 
-                                        if(
-                                                App.Controls.keyDown('W') || App.Controls.keyDown('ARROW_UP') || 
-                                                App.Controls.keyDown('S') || App.Controls.keyDown('ARROW_DOWN')
-                                        ) {
+                                        if(App.Controls.keyDown('W') || App.Controls.keyDown('ARROW_UP')) {
                                                 App.Game.setGameState('gameplay', function(){
                                                         App.Game.defaultDir = { x: 1, y: 1 };
                                                 });
@@ -105,6 +102,7 @@
                                                 App.Game.score = 0;
                                                 App.Game.level++;
                                                 App.Game.setGameState('transition', function(){
+                                                        //
                                                         App.Game.defaultDir = { x: 1, y: 0 };
                                                 });
                                         }
