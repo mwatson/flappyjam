@@ -20,6 +20,7 @@
                 };
 
                 this.state = 'idle';
+                this.prevState = 'idle';
 
                 this.removed = false;
 
@@ -70,10 +71,17 @@
                 };
 
                 this.changeState = function(newState, callback) {
+                        if(this.state == newState) {
+                                return false;
+                        }
+
+                        this.prevState = this.state;
                         this.state = newState;
                         if(callback) {
                                 callback();
                         }
+
+                        return true;
                 };
 
                 // flag for removal
@@ -149,6 +157,8 @@
                                         if(_.isUndefined(this.attrs.sprites[curState])) {
                                                 curState = 'walk';
                                         }
+                                } else if(en.state == 'dead') {
+                                        curState = 'dead';
                                 }
 
                                 if(_.isUndefined(this.attrs.sprites[curState])) {
@@ -171,8 +181,6 @@
                                 if(_.isUndefined(this.attrs.sprites[curState][curFrame])) {
                                         curFrame = 0;
                                 }
-
-                                //console.log(curState, curFrame, frameCtr);
 
                                 App.Draw.get(canvasId).drawImg(
                                         this.attrs.sprites[curState][curFrame].frame, 
@@ -248,7 +256,9 @@
 
                         en.setPosition(newPos.x, newPos.y);
 
-                        if(xDir !== 0) {
+                        if(en.is('Hurtable') && en.c('Hurtable').isDead()) {
+                                // don't change state if the entity is dead
+                        } else if(xDir !== 0) {
                                 en.changeState('walk');
                         } else {
                                 en.changeState('idle');
@@ -416,6 +426,7 @@
                 };
 
                 this.isDead = function() {
+                        this.en.changeState('dead');
                         return this.health <= 0 ? true : false;
                 };
         };

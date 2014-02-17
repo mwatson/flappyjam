@@ -16,7 +16,9 @@
                 ], 
 
                 Images: [
+                        { name: 'player_base00', rel: 'img/player/playerbase_1_0.png' }, 
                         { name: 'player_base01', rel: 'img/player/playerbase_1_1.png' }, 
+                        { name: 'player_base02', rel: 'img/player/playerbase_1_2.png' }, 
                         { name: 'player_wing01', rel: 'img/player/playerwing_1_1.png' }, 
                         { name: 'player_wing02', rel: 'img/player/playerwing_1_2.png' }, 
                         { name: 'player_wing03', rel: 'img/player/playerwing_1_3.png' }
@@ -29,7 +31,14 @@
                         //
                         { name: 'player_idle_frame01', 
                           images: [ 
-                                { frame: 'player_base01', offset: { x: 0, y: 0 } }
+                                { frame: 'player_base00', offset: { x: 0, y: 0 } }, 
+                                { frame: 'player_wing02', offset: { x: 0, y: 0 } }
+                          ]
+                        }, 
+                        { name: 'player_dead_frame01', 
+                          images: [ 
+                                { frame: 'player_base02', offset: { x: 0, y: 0 } }, 
+                                { frame: 'player_wing02', offset: { x: 0, y: 0 } }
                           ]
                         }, 
                         { name: 'player_right_frame01',
