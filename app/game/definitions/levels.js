@@ -53,9 +53,19 @@
                         var eo = [ 4, 8 ], ctr = 0;
                         for(y = 0; y < height; y++) {
                                 for(x = 32; x < width - 64; x += eo[ctr % 2]) {
+
+                                        if(_.keys(map.columns).length >= 16) {
+                                                break;
+                                        }
+
                                         map.columns['col_' + x] = x;
                                         App.Game.colScore['col_' + x] = false;
+
                                         ctr++;
+                                }
+
+                                if(_.keys(map.columns).length >= 16) {
+                                        break;
                                 }
                         }
 

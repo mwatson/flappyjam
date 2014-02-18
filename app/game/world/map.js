@@ -63,7 +63,7 @@
                         //var c = document.createElement('canvas');
                 };
 
-                this.generateBlockers = function(width, height, mapSize) {
+                this.generateBlockers = function(width, height, level) {
                         // generate an empty map grid
                         var grid = [], val, x = 0, y = 0;
                         for(y = 0; y < height; y++) {
@@ -86,7 +86,7 @@
                                 }
                         }
 
-                        grid = App.Defs.Levels[1].build(width, height, this, grid);
+                        grid = App.Defs.Levels[level].build(width, height, this, grid);
 
                         return grid;
                 };
@@ -267,7 +267,7 @@
                                 self.grid = self.generateBlockers(
                                         settings.width, 
                                         settings.height, 
-                                        settings.mapSize
+                                        0
                                 );
                         } else {
                                 self.grid = settings.blockers;

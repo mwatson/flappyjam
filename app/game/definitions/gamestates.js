@@ -43,7 +43,7 @@
                                                 '> FLAP TO BOOT BIRD', 
                                                 App.Game.settings.hud.smallFont, 
                                                 '#245400', 
-                                                122, 
+                                                132, 
                                                 242, 
                                                 38
                                         );
@@ -52,7 +52,7 @@
                                                 '> FLAP TO BOOT BIRD', 
                                                 App.Game.settings.hud.smallFont, 
                                                 '#FFF', 
-                                                120, 
+                                                130, 
                                                 240, 
                                                 38
                                         );
@@ -99,10 +99,7 @@
                                         App.Game.gameplayOps();
 
                                         if(App.Game.score >= 16) {
-                                                App.Game.score = 0;
-                                                App.Game.level++;
                                                 App.Game.setGameState('transition', function(){
-                                                        //
                                                         App.Game.defaultDir = { x: 1, y: 0 };
                                                 });
                                         }
@@ -130,7 +127,7 @@
                                         newPos = player.c('Movable').move(xDir, yDir);
 
                                         if(!_.isUndefined(newPos.collisions) && newPos.collisions.length) {
-                                                player.c('Hurtable').takeDamage(1);
+                                                //player.c('Hurtable').takeDamage(1);
                                         }
                                 }
                         }
@@ -234,7 +231,7 @@
                                         );
 
                                         App.Draw.get('hud').writeText(
-                                                'PRESS (R) TO RESTART_', 
+                                                'PRESS (R) TO REBOOT_', 
                                                 App.Game.settings.hud.smallFont, 
                                                 '#245400', 
                                                 162, 
@@ -242,7 +239,7 @@
                                         );
 
                                         App.Draw.get('hud').writeText(
-                                                'PRESS (R) TO RESTART_',
+                                                'PRESS (R) TO REBOOT_',
                                                 App.Game.settings.hud.smallFont, 
                                                 '#D2FFBF', 
                                                 160, 

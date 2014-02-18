@@ -325,14 +325,20 @@
                                 player.attrs.x = 8 * 64 + diff;
                                 camera.attrs.x = 8 * 64 + diff - 16;
 
-                                _.each(this.colScore, function(val, key){
-                                        self.colScore[key] = false;
-                                });
-
                                 App.Game.setGameState('gameplay', function(){
                                         App.Game.score = 0;
                                         App.Game.level++;
                                         App.Game.defaultDir = { x: 1, y: 1 };
+
+                                        // (re)generate the map
+                                        App.World.map.grid = [];
+                                        App.World.map.columns = {};
+                                        this.colScore = {};
+                                        App.World.map.grid = App.World.map.generateBlockers(192, 9, App.Game.level - 1);
+                                });
+
+                                _.each(this.colScore, function(val, key){
+                                        self.colScore[key] = false;
                                 });
                         }
 

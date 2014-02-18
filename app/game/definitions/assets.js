@@ -38,7 +38,7 @@
                         { name: 'player_dead_frame01', 
                           images: [ 
                                 { frame: 'player_base02', offset: { x: 0, y: 0 } }, 
-                                { frame: 'player_wing02', offset: { x: 0, y: 0 } }
+                                { frame: 'player_wing01', offset: { x: 0, y: 4 } }
                           ]
                         }, 
                         { name: 'player_right_frame01',
