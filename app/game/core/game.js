@@ -333,8 +333,9 @@
                                         // (re)generate the map
                                         App.World.map.grid = [];
                                         App.World.map.columns = {};
-                                        this.colScore = {};
-                                        App.World.map.grid = App.World.map.generateBlockers(192, 9, App.Game.level - 1);
+                                        App.World.map.numCols = 0;
+                                        self.colScore = {};
+                                        App.World.map.grid = App.World.map.generateBlockers(192, 9, App.Game.level);
                                 });
 
                                 _.each(this.colScore, function(val, key){

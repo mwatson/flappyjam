@@ -98,7 +98,8 @@
                                 update: function() {
                                         App.Game.gameplayOps();
 
-                                        if(App.Game.score >= 16) {
+                                        if(App.Game.score >= App.World.map.numCols) {
+                                                console.log(App.Game.score, App.World.map.numCols);
                                                 App.Game.setGameState('transition', function(){
                                                         App.Game.defaultDir = { x: 1, y: 0 };
                                                 });

@@ -11,6 +11,7 @@
                 this.grid = [];
 
                 this.columns = {};
+                this.numCols = 0;
 
                 this.levelColors = {};
 
@@ -86,22 +87,45 @@
                                 }
                         }
 
-                        grid = App.Defs.Levels[level].build(width, height, this, grid);
+                        // build level columns
+                        this.columns = App.Defs.Levels[level].build(width, height);
 
                         return grid;
                 };
 
-                this.processGrid = function() {
-                        // assign some base data to the grid
-                        for(var y = 0; y < this.grid.length; y++) {
-                                for(var x = 0; x < this.grid[y].length; x++) {
-                                        if(this.grid[y][x] == 1) {
-                                                //this.grid[y][x] = true;
+                this.processColumns = function() {
+                        // process columns
+                        var c, st = 2, lst = 0;
+                        _.each(this.columns, function(val, key){
+
+                                App.Game.colScore[key] = false;
+
+                                st = App.Tools.rand(1, 4);
+                                while(Math.abs(st - lst) > 2) {
+                                        if(st > lst) { 
+                                                st--;
                                         } else {
-                                                //this.grid[y][x] = false;
+                                                st++;
                                         }
                                 }
-                        }
+
+                                grid[st][val] = 1;
+                                c = st - 1;
+                                while(c > 0) {
+                                        grid[c][val] = 1;
+                                        c--;
+                                }
+
+                                grid[st + 3][val] = 1;
+                                c = st + 4;
+                                while(c < 9) {
+                                        grid[c][val] = 1;
+                                        c++;
+                                }
+                                lst = st;
+                        });
+
+                        this.numCols = _.keys(this.columns).length;
                 };
 
                 this.draw = function(interpolation, moveDelta) {
@@ -267,12 +291,12 @@
                                 self.grid = self.generateBlockers(
                                         settings.width, 
                                         settings.height, 
-                                        0
+                                        3
                                 );
                         } else {
                                 self.grid = settings.blockers;
                         }
-                        self.processGrid();
+                        //self.processGrid();
 
                         // spawn the player
                         var playerId = self.spawn(
