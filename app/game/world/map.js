@@ -15,6 +15,8 @@
 
                 this.levelColors = {};
 
+                this.levelColorFadeTo = {};
+
                 this.entityMap = {};
 
                 this.bounds = {};
@@ -25,36 +27,12 @@
 
                 this.camera = null;
 
-                this.createBackgroundGrid = function(width, height, rows) {
-                        var rowMap = {}, 
-                            tileColor, 
-                            fgTileColor, 
-                            bgTileColor, 
-                            gridMap;
-
-                        for(var i = 0; i < rows.length; i++) {
-                                rowMap['r_' + rows[i].depth] = rows[i];
-                        }
-                        fgTileColor = rowMap.r_0.fgColor;
-                        bgTileColor = rowMap.r_0.bgColor;
-
+                this.createBackgroundGrid = function(width, height) {
                         this.bgGrid = [];
                         for(var y = 0; y < height; y++) {
-                                if(!_.isUndefined(rowMap['r_' + y])) {
-                                        fgTileColor = rowMap['r_' + y].fgColor;
-                                        bgTileColor = rowMap['r_' + y].bgColor;
-                                }
-
                                 this.bgGrid.push([]);
                                 for(var x = 0; x < width; x++) {
-                                        tileColor = fgTileColor;
-                                        if(!(x % 2) && (y % 2)) {
-                                                tileColor = bgTileColor;
-                                        } else if((x % 2) && !(y % 2)) {
-                                                tileColor = bgTileColor;
-                                        }
-
-                                        this.bgGrid[this.bgGrid.length - 1].push(tileColor);
+                                        this.bgGrid[this.bgGrid.length - 1].push(true);
                                 }
                         }
                 };
@@ -87,21 +65,33 @@
                                 }
                         }
 
+                        if(_.isUndefined(App.Defs.Levels[level])) {
+                                level = (level % App.Defs.Levels.length) + 1;
+                        }
+
                         // build level columns
                         this.columns = App.Defs.Levels[level].build(width, height);
+                        grid = this.processColumns(
+                                grid, 
+                                App.Defs.Levels[level].params.gap, 
+                                App.Defs.Levels[level].params.heightDiff, 
+                                App.Defs.Levels[level].params.heightMax
+                        );
+
+                        this.levelColorsFadeTo = App.Defs.Levels[level].params.colors;
 
                         return grid;
                 };
 
-                this.processColumns = function() {
+                this.processColumns = function(grid, gapSize, heightDiff, heightMax) {
                         // process columns
                         var c, st = 2, lst = 0;
                         _.each(this.columns, function(val, key){
 
                                 App.Game.colScore[key] = false;
 
-                                st = App.Tools.rand(1, 4);
-                                while(Math.abs(st - lst) > 2) {
+                                st = App.Tools.rand(1, heightMax);
+                                while(Math.abs(st - lst) > heightDiff) {
                                         if(st > lst) { 
                                                 st--;
                                         } else {
@@ -126,12 +116,28 @@
                         });
 
                         this.numCols = _.keys(this.columns).length;
+
+                        return grid;
                 };
 
                 this.draw = function(interpolation, moveDelta) {
-                        var x, y, i = 0, col, 
+                        var x, y, j = 0, i = 0, col, 
                             player = App.Player.playerEnt, 
-                            mul = player.attrs.speed * interpolation * moveDelta;
+                            mul = player.attrs.speed * interpolation * moveDelta, 
+                            colors = [ 'main', 'shadow', 'bgColor', 'bgGrid' ], 
+                            rgb = [ 'r', 'g', 'b' ];
+
+                        for(j = 0; j < colors.length; j++) {
+                                if(this.levelColorsFadeTo[colors[j]] != this.levelColors[colors[j]]) {
+                                        for(i = 0; i < rgb.length; i++) {
+                                                if(this.levelColorsFadeTo[colors[j]][rgb[i]] > this.levelColors[colors[j]][rgb[i]]) {
+                                                        this.levelColors[colors[j]][rgb[i]]++;
+                                                } else if(this.levelColorsFadeTo[colors[j]][rgb[i]] < this.levelColors[colors[j]][rgb[i]]) {
+                                                        this.levelColors[colors[j]][rgb[i]]--;
+                                                }
+                                        }
+                                }
+                        }
 
                         for(y = 0; y < this.bgGrid.length; y++) {
                                 for(x = 0; x < this.bgGrid[y].length; x++) {
@@ -140,8 +146,8 @@
                                                 y * this.tileSize + 20, 
                                                 this.tileSize * 2, 
                                                 this.tileSize * 2, 
-                                                settings.rows[0].fgColor, 
-                                                settings.rows[0].bgColor, 
+                                                App.Tools.rgbObjToColor(this.levelColors.bgColor), 
+                                                App.Tools.rgbObjToColor(this.levelColors.bgGrid), 
                                                 2
                                         );
                                 }
@@ -167,7 +173,7 @@
                                                         y * this.tileSize + 2,
                                                         this.tileSize, 
                                                         this.tileSize, 
-                                                        this.levelColors.shadow
+                                                        App.Tools.rgbObjToColor(this.levelColors.shadow)
                                                 );
 
                                                 App.Draw.get('entity').fillRect(
@@ -175,7 +181,7 @@
                                                         y * this.tileSize,
                                                         this.tileSize, 
                                                         this.tileSize, 
-                                                        this.levelColors.main
+                                                        App.Tools.rgbObjToColor(this.levelColors.main)
                                                 );
                                         }
                                 }
@@ -252,7 +258,6 @@
                         self.tileSize = settings.tileSize;
                         self.bounds = settings.bounds;
                         self.playerSpawn = settings.playerStart;
-                        self.levelColors = settings.colors;
 
                         if(_.isUndefined(self.bounds.top)) {
                                 self.bounds.top = 0;
@@ -284,19 +289,20 @@
                                 height += height * App.Draw.get('background').parallax.y;
                         }
 
-                        self.createBackgroundGrid(width, height, settings.rows);
+                        self.createBackgroundGrid(width, height);
 
                         // generate the map
                         if(!settings.blockers.length) {
                                 self.grid = self.generateBlockers(
                                         settings.width, 
                                         settings.height, 
-                                        3
+                                        1
                                 );
                         } else {
                                 self.grid = settings.blockers;
                         }
-                        //self.processGrid();
+
+                        self.levelColors = App.Defs.Levels[1].params.colors;
 
                         // spawn the player
                         var playerId = self.spawn(

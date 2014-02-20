@@ -326,6 +326,7 @@
                                 camera.attrs.x = 8 * 64 + diff - 16;
 
                                 App.Game.setGameState('gameplay', function(){
+
                                         App.Game.score = 0;
                                         App.Game.level++;
                                         App.Game.defaultDir = { x: 1, y: 1 };

@@ -158,16 +158,6 @@ App.init = function() {
                                 y: 4 * 64
                         }, 
 
-                        // define the colors of the bg tiles
-                        rows: [
-                                { depth: 0,  fgColor: '#000', bgColor: '#003000' }, 
-                        ], 
-
-                        colors: {
-                                main: '#348C01',
-                                shadow: '#A1D415'
-                        }, 
-
                         enemies: {
                                 max: 2, 
                                 min: 1

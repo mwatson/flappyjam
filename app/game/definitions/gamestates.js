@@ -34,7 +34,7 @@
                                         App.Draw.get('hud').writeText(
                                                 'VIRTUAL/BIRD', 
                                                 App.Game.settings.hud.titleFont, 
-                                                '#54C200', 
+                                                App.Tools.rgbObjToColor(App.World.map.levelColors.main),  
                                                 50, 
                                                 100
                                         );
@@ -42,7 +42,7 @@
                                         App.Draw.get('hud').writeTextMultiLine(
                                                 '> FLAP TO BOOT BIRD', 
                                                 App.Game.settings.hud.smallFont, 
-                                                '#245400', 
+                                                '#555555', 
                                                 132, 
                                                 242, 
                                                 38
@@ -60,7 +60,7 @@
                                         App.Draw.get('hud').writeTextMultiLine(
                                                 'CONTROLS:|FLAP - (W) OR (UP ARROW)|Dive - (S) OR (DOWN ARROW)', 
                                                 App.Game.settings.hud.smallFont, 
-                                                '#245400', 
+                                                '#555555', 
                                                 82, 
                                                 352, 
                                                 32
@@ -99,7 +99,6 @@
                                         App.Game.gameplayOps();
 
                                         if(App.Game.score >= App.World.map.numCols) {
-                                                console.log(App.Game.score, App.World.map.numCols);
                                                 App.Game.setGameState('transition', function(){
                                                         App.Game.defaultDir = { x: 1, y: 0 };
                                                 });
@@ -153,7 +152,7 @@
                                         App.Draw.get('hud').writeText(
                                                 'LEVEL_COMPLETE', 
                                                 App.Game.settings.hud.largeFont, 
-                                                '#54C200', 
+                                                App.Tools.rgbObjToColor(App.World.map.levelColors.main), 
                                                 60, 
                                                 200
                                         );
