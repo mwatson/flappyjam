@@ -65,6 +65,10 @@
                 ], 
 
                 SoundQueues: [
+                ], 
+
+                Music: [
+                        { name: 'pumped', rel: { mp3: 'music/roccow_pumped.mp3' } }
                 ]
         };
 

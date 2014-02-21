@@ -191,9 +191,9 @@
                                 draw: function(interpolation, moveDelta) {
                                         App.Game.centerCamera(interpolation, moveDelta);
 
-                                        var level = App.Game.level + '', 
+                                        var level = (App.Game.level + 1) + '', 
                                             score = App.Game.score + '', 
-                                            bLevel = App.Game.best.level + '', 
+                                            bLevel = (App.Game.best.level + 1) + '', 
                                             bScore = App.Game.best.score + '';
 
                                         App.Draw.get('hud').writeText(

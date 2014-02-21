@@ -4,9 +4,7 @@
 
         // use levels.push so spacing is a little better
 
-        levels.push({});
-
-        // level 1
+        // level 0
         levels.push({
                 build: function(width, height) {
                         var columns = {};
@@ -31,7 +29,7 @@
                 }
         });
 
-        // level 2
+        // level 1
         levels.push({
                 build: function(width, height) {
                         var columns = {};
@@ -55,7 +53,7 @@
                 }
         });
 
-        // level 3
+        // level 2
         levels.push({
                 build: function(width, height) {
                         var eo = [ 8, 4 ], ctr = 0, columns = {};
@@ -80,14 +78,13 @@
                 }
         });
 
-        // level 4
+        // level 3
         levels.push({
                 build: function(width, height) {
-                        var eo = [ 2, 4, 6 ], ctr = 0, columns = {};
+                        var columns = {};
                         for(y = 0; y < height; y++) {
-                                for(x = 32; x < width - 64; x += eo[ctr % 3]) {
+                                for(x = 32; x < width - 64; x += 4) {
                                         columns['col_' + x] = x;
-                                        ctr++;
                                 }
                         }
                         return columns;
@@ -99,12 +96,35 @@
                         colors: {
                                 main: { r: 0, g: 0, b: 0 }, 
                                 shadow: { r: 202, g: 19, b: 187 },
-                                bgColor: { r: 4, g: 4, b: 0 }, 
+                                bgColor: { r: 0, g: 43, b: 74 }, 
                                 bgGrid: { r: 127, g: 120, b: 0 }
                         }
                 }
         });
 
+        // level 4
+        levels.push({
+                build: function(width, height) {
+                        var columns = {};
+                        for(y = 0; y < height; y++) {
+                                for(x = 32; x < width - 64; x += 4) {
+                                        columns['col_' + x] = x;
+                                }
+                        }
+                        return columns;
+                }, 
+                params: {
+                        gap: 3, 
+                        heightMax: 4, 
+                        heightDiff: 1, 
+                        colors: {
+                                main: { r: 190, g: 0, b: 0 }, 
+                                shadow: { r: 255, g: 161, b: 161 },
+                                bgColor: { r: 0, g: 0, b: 0 }, 
+                                bgGrid: { r: 166, g: 88, b: 0 }
+                        }
+                }
+        });
 
         root.App.Defaults.Levels = levels;
 

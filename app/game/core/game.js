@@ -31,6 +31,7 @@
                         App.Tools       = new App.Objects.Tools();
                         App.Definitions = new App.Objects.Definitions();
                         App.Draw        = new App.Objects.Draw(settings.draw);
+                        App.Sound       = new App.Objects.Sound(settings.sound);
                         App.Controls    = new App.Objects.Controls();
                         App.Player      = new App.Objects.Player(settings.player);
                         App.World       = new App.Objects.World(settings.world);
@@ -43,6 +44,9 @@
 
                         // Load assets
                         App.Tools.assetLoader();
+
+                        // play music
+                        App.Sound.playSong('pumped');
 
                         gameRunning = true;
 
@@ -298,7 +302,7 @@
 
                 this.defaultDir = { x: 0, y: 0 };
 
-                this.level = 1;
+                this.level = 0;
                 this.score = 0;
 
                 this.best = {

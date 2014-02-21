@@ -66,8 +66,9 @@
                         }
 
                         if(_.isUndefined(App.Defs.Levels[level])) {
-                                level = (level % App.Defs.Levels.length) + 1;
+                                level = level % App.Defs.Levels.length;
                         }
+                        console.log(level);
 
                         // build level columns
                         this.columns = App.Defs.Levels[level].build(width, height);
@@ -296,13 +297,13 @@
                                 self.grid = self.generateBlockers(
                                         settings.width, 
                                         settings.height, 
-                                        1
+                                        0
                                 );
                         } else {
                                 self.grid = settings.blockers;
                         }
 
-                        self.levelColors = App.Defs.Levels[1].params.colors;
+                        self.levelColors = App.Defs.Levels[0].params.colors;
 
                         // spawn the player
                         var playerId = self.spawn(

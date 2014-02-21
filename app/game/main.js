@@ -7,6 +7,7 @@ var App = {
                 Images: {}, 
                 Sounds: {}, 
                 SoundQueues: {}, 
+                Music: {}, 
                 Fonts: {}, 
                 Text: {}
         }

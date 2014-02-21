@@ -3,7 +3,7 @@
         var huds = {
 
                 displayScore: function() {
-                        var level = App.Game.level + '', 
+                        var level = (App.Game.level + 1) + '', 
                             score = App.Game.score + '';
 
                         App.Draw.get('hud').writeTextRight(
