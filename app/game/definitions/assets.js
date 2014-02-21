@@ -62,12 +62,17 @@
                 ], 
 
                 Sounds: [
+                        { name: 'blip01', rel: 'sound/blip01.wav' }, 
+                        { name: 'flap01', rel: 'sound/flap01.wav' }, 
+                        { name: 'flap02', rel: 'sound/flap02.wav' }, 
+                        { name: 'death01', rel: 'sound/death.wav' }
                 ], 
 
                 SoundQueues: [
                 ], 
 
                 Music: [
+
                         { name: 'pumped', rel: { mp3: 'music/roccow_pumped.mp3' } }
                 ]
         };

@@ -114,6 +114,7 @@
                                 App.Assets.Music[asset.name] = new Audio();
                                 // check here for mp3 compat
                                 App.Assets.Music[asset.name].src = 'assets/' + asset.rel.mp3;
+                                App.Assets.Music[asset.name].playing = false;
                         });
                 };
 

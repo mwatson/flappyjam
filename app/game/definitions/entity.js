@@ -55,6 +55,7 @@
                                                 }
 
                                                 App.Game.setGameState('gameover', function(){
+                                                        App.Sound.play('death01');
                                                         App.Game.defaultDir = { x: 0, y: 1 };
                                                         if(App.Game.level >= App.Game.best.level) {
                                                                 App.Game.best.level = App.Game.level;

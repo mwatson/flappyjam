@@ -27,11 +27,14 @@
                 };
 
                 this.playSong = function(songId) {
-                        App.Assets.Music[songId].addEventListener('canplay', function() {
-                                App.Assets.Music[songId].volume = 0.5;
-                                App.Assets.Music[songId].play();
-                        });
-                        App.Assets.Music[songId].load();
+                        if(!App.Assets.Music[songId].playing) {
+                                App.Assets.Music[songId].addEventListener('canplay', function() {
+                                        App.Assets.Music[songId].playing = true;
+                                        App.Assets.Music[songId].volume = 0.5;
+                                        App.Assets.Music[songId].play();
+                                });
+                                App.Assets.Music[songId].load();
+                        }
                 };
 
                 this.getVolume = function() {

@@ -45,9 +45,6 @@
                         // Load assets
                         App.Tools.assetLoader();
 
-                        // play music
-                        App.Sound.playSong('pumped');
-
                         gameRunning = true;
 
                         this.skipTicks = ~~(1000 / this.settings.updatecap);

@@ -80,6 +80,7 @@
 
                                         if(App.Controls.keyDown('W') || App.Controls.keyDown('ARROW_UP')) {
                                                 App.Game.setGameState('gameplay', function(){
+                                                        App.Sound.playSong('pumped');
                                                         App.Game.defaultDir = { x: 1, y: 1 };
                                                 });
                                         }
@@ -127,7 +128,7 @@
                                         newPos = player.c('Movable').move(xDir, yDir);
 
                                         if(!_.isUndefined(newPos.collisions) && newPos.collisions.length) {
-                                                //player.c('Hurtable').takeDamage(1);
+                                                player.c('Hurtable').takeDamage(1);
                                         }
                                 }
                         }
@@ -260,7 +261,7 @@
                                                 App.Game.setGameState('gamestart', function(){ 
                                                         App.World.loadMap(0);
                                                         App.Game.score = 0;
-                                                        App.Game.level = 1;
+                                                        App.Game.level = 0;
                                                 });
                                         }
                                 }
