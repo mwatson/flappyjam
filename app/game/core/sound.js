@@ -27,16 +27,11 @@
                 };
 
                 this.playSong = function(songId) {
-                        if(_.isUndefined(App.Assets.Music[songId])) {
-                                App.Assets.Music[songId] = new Audio();
-                                App.Assets.Music[songId].addEventListener('canplay', function() {
-                                        App.Assets.Music[songId].volume = 0.7;
-                                        App.Assets.Music[songId].play();
-                                });
-                                var asset = App.Defs.Assets.Music[songId];
-                                App.Assets.Music[songId].src = 'assets/' + asset.rel.mp3;
-                                App.Assets.Music[songId].load();
-                        }
+                        App.Assets.Music[songId].addEventListener('canplay', function() {
+                                App.Assets.Music[songId].volume = 0.5;
+                                App.Assets.Music[songId].play();
+                        });
+                        App.Assets.Music[songId].load();
                 };
 
                 this.getVolume = function() {

@@ -108,6 +108,13 @@
                         _.each(App.Defs.Assets.SoundQueues, function(asset, id) {
                                 App.Assets.SoundQueues[asset.name] = new App.Objects.SoundQueue(asset.sounds);
                         });
+
+                        // music doesn't count for/against the asset count
+                        _.each(App.Defs.Assets.Music, function(asset, id) {
+                                App.Assets.Music[asset.name] = new Audio();
+                                // check here for mp3 compat
+                                App.Assets.Music[asset.name].src = 'assets/' + asset.rel.mp3;
+                        });
                 };
 
                 this.assetFontCheck = function() {
