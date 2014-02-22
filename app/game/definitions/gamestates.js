@@ -80,7 +80,7 @@
 
                                         if(App.Controls.keyDown('W') || App.Controls.keyDown('ARROW_UP')) {
                                                 App.Game.setGameState('gameplay', function(){
-                                                        App.Sound.playSong('pumped');
+                                                        App.Sound.playSong('pumped', true);
                                                         App.Game.defaultDir = { x: 1, y: 1 };
                                                 });
                                         }

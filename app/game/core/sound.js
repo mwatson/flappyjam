@@ -26,13 +26,19 @@
                         }
                 };
 
-                this.playSong = function(songId) {
+                this.playSong = function(songId, loop) {
                         if(!App.Assets.Music[songId].playing) {
                                 App.Assets.Music[songId].addEventListener('canplay', function() {
                                         App.Assets.Music[songId].playing = true;
                                         App.Assets.Music[songId].volume = 0.5;
                                         App.Assets.Music[songId].play();
                                 });
+                                if(loop) {
+                                        App.Assets.Music[songId].addEventListener('ended', function(){
+                                                App.Assets.Music[songId].currentTime = 0;
+                                                App.Assets.Music[songId].play();
+                                        }, false);
+                                }
                                 App.Assets.Music[songId].load();
                         }
                 };
