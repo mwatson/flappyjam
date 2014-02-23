@@ -68,7 +68,6 @@
                         if(_.isUndefined(App.Defs.Levels[level])) {
                                 level = level % App.Defs.Levels.length;
                         }
-                        console.log(level);
 
                         // build level columns
                         this.columns = App.Defs.Levels[level].build(width, height);

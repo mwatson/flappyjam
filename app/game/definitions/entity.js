@@ -50,12 +50,13 @@
                                 Hurtable: {
                                         health: 1, 
                                         onDeath: function() {
+                                                App.Sound.play('death01');
+                                                
                                                 if(this.en.is('Emitter')) {
                                                         this.en.c('Emitter').disable();
                                                 }
 
                                                 App.Game.setGameState('gameover', function(){
-                                                        App.Sound.play('death01');
                                                         App.Game.defaultDir = { x: 0, y: 1 };
                                                         if(App.Game.level >= App.Game.best.level) {
                                                                 App.Game.best.level = App.Game.level;

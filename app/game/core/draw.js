@@ -228,24 +228,6 @@
                         this.lastFillStyle = '';
 
                         this.fillRect = function(x, y, w, h, col) {
-
-                                /*
-                                var cId = w + '_' + h + '_' + col;
-                                if(_.isUndefined(App.Assets.Images[cId])) {
-                                        var c = document.createElement('canvas'), 
-                                            ctx;
-                                        c.id = cId;
-                                        c.width = w * 2;
-                                        c.height = h;
-                                        ctx = c.getContext('2d');
-                                        ctx.fillStyle = col;
-                                        ctx.fillRect(0, 0, ~~w, ~~h);
-
-                                        App.Assets.Images[cId] = c;
-                                        console.log('caching', cId);
-                                }
-                                */
-
                                 var coords = this.calcXY(x, y);
                                 if(this.checkCoords(coords.x, coords.y, w, h)) {
                                         this.ctx.fillStyle = col;

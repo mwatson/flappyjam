@@ -94,54 +94,38 @@
                         return (new Date()).getTime();
                 };
 
-                this.skipTicks = 0;
-                this.maxFrameskip = 5;
-                this.nextTick = this.gameTicks();
-
                 this.waitTimers = {};
 
-                var newTime, 
-                    frameTime = 0, 
-                    accumulator = 0, 
-                    currentTime = this.gameTicks();
+                var loops = 0,
+                    skipTicks = 1000 / 30, 
+                    maxFrameskip = 10, 
+                    nextGameTick = this.gameTicks(), 
+                    lastGameTick;
 
                 this.gameLoop = function() {
 
-                        newTime = this.gameTicks();
-                        frameTime = newTime - currentTime;
-
-                        if(frameTime > 30) {
-                                frameTime = 30;
+                        while(self.gameTicks() > nextGameTick) {
+                                self.updateOps();
+                                nextGameTick += skipTicks;
+                                loops++;
                         }
-
-                        currentTime = newTime;
-                        accumulator += frameTime;
-
-                        while(accumulator >= this.skipTicks) {
-
-                                this.updateOps();
-                                accumulator -= this.skipTicks;
-                        }
-
-                        this.interpolation = accumulator / this.skipTicks;
 
                         if(App.Defs.Assets.Loaded.Complete) {
-                                this.drawOps();
+                                if(!loops) {
+                                        self.drawOps((nextGameTick - self.gameTicks()) / skipTicks);
+                                } else {
+                                        self.drawOps(0);
+                                }
                         }
- 
+
                         // keep the loopInfo manageable 
-                        _.each(this.loopInfo, function(val, key) {
+                        _.each(self.loopInfo, function(val, key) {
                                 if(self.loopInfo[key].length > 250) {
                                         self.loopInfo[key].splice(0, self.loopInfo[key].length - 250);
                                 }
                         });
 
-                        if(gameRunning) {
-                                
-                                requestAnimationFrame(function() {
-                                        self.gameLoop();
-                                });
-                        }
+                        requestAnimationFrame(self.gameLoop);
                 };
                 
                 this.loopInfo = {
@@ -153,10 +137,10 @@
 
                 this.lastDraw = null;
                 var plax = -1, plAccum = 0;
-                this.drawOps = function() {
+                this.drawOps = function(interpolation) {
 
                         var curTime = this.gameTicks(), 
-                            interpolation = (curTime - this.lastUpdate) / this.gameSpeed, 
+                            //interpolation = (curTime - this.lastUpdate) / this.gameSpeed, 
                             moveDelta = (curTime - this.lastUpdate) / 20;
 
                         App.Draw.get('hud').clear();
@@ -238,6 +222,8 @@
                            this.settings.video.height != window.innerHeight) {
                                 //App.Draw.setResolution();
                         }
+
+                        App.Defs.GameStates.all.tick.update();
 
                         App.Defs.GameStates[this.gameState].tick.update();
 
@@ -331,18 +317,18 @@
                                         App.Game.score = 0;
                                         App.Game.level++;
                                         App.Game.defaultDir = { x: 1, y: 1 };
-
-                                        // (re)generate the map
-                                        App.World.map.grid = [];
-                                        App.World.map.columns = {};
-                                        App.World.map.numCols = 0;
-                                        self.colScore = {};
-                                        App.World.map.grid = App.World.map.generateBlockers(192, 9, App.Game.level);
                                 });
 
                                 _.each(this.colScore, function(val, key){
                                         self.colScore[key] = false;
                                 });
+                        } else if(player.attrs.x > 128 * 64) {
+                                // (re)generate the map
+                                App.World.map.grid = [];
+                                App.World.map.columns = {};
+                                App.World.map.numCols = 0;
+                                self.colScore = {};
+                                App.World.map.grid = App.World.map.generateBlockers(192, 9, App.Game.level + 1);
                         }
 
                         gridX = Math.floor(player.attrs.x / 64);

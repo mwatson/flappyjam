@@ -2,6 +2,19 @@
 
         var gameStates = {
 
+                all: {
+                        tick: {
+                                draw: function() {
+                                }, 
+
+                                update: function() {
+                                        if(App.Controls.keyPress('M')) {
+                                                App.Sound.toggleMuteSong('pumped');
+                                        }
+                                }
+                        }
+                }, 
+
                 loading: {
 
                         tick: {
@@ -22,58 +35,7 @@
                         tick: {
                                 draw: function(interpolation, moveDelta) {
                                         App.Game.centerCamera(interpolation, moveDelta);
-
-                                        App.Draw.get('hud').writeText(
-                                                'VIRTUAL/BIRD', 
-                                                App.Game.settings.hud.titleFont, 
-                                                '#FFF', 
-                                                53, 
-                                                103
-                                        );
-
-                                        App.Draw.get('hud').writeText(
-                                                'VIRTUAL/BIRD', 
-                                                App.Game.settings.hud.titleFont, 
-                                                App.Tools.rgbObjToColor(App.World.map.levelColors.main),  
-                                                50, 
-                                                100
-                                        );
-
-                                        App.Draw.get('hud').writeTextMultiLine(
-                                                '> FLAP TO BOOT BIRD', 
-                                                App.Game.settings.hud.smallFont, 
-                                                '#555555', 
-                                                132, 
-                                                242, 
-                                                38
-                                        );
-
-                                        App.Draw.get('hud').writeTextMultiLine(
-                                                '> FLAP TO BOOT BIRD', 
-                                                App.Game.settings.hud.smallFont, 
-                                                '#FFF', 
-                                                130, 
-                                                240, 
-                                                38
-                                        );
-
-                                        App.Draw.get('hud').writeTextMultiLine(
-                                                'CONTROLS:|FLAP - (W) OR (UP ARROW)|Dive - (S) OR (DOWN ARROW)', 
-                                                App.Game.settings.hud.smallFont, 
-                                                '#555555', 
-                                                82, 
-                                                352, 
-                                                32
-                                        );
-
-                                        App.Draw.get('hud').writeTextMultiLine(
-                                                'CONTROLS:|FLAP - (W) OR (UP ARROW)|DIVE - (S) OR (DOWN ARROW)', 
-                                                App.Game.settings.hud.smallFont, 
-                                                '#D2FFBF', 
-                                                80, 
-                                                350, 
-                                                32
-                                        );
+                                        App.Defs.Huds.titleScreen();
                                 },
 
                                 update: function() {
@@ -82,6 +44,27 @@
                                                 App.Game.setGameState('gameplay', function(){
                                                         App.Sound.playSong('pumped', true);
                                                         App.Game.defaultDir = { x: 1, y: 1 };
+                                                });
+
+                                        } else if(App.Controls.keyPress('SPACE')) {
+                                                App.Game.setGameState('gameinfo', function(){
+                                                });
+                                        }
+                                }
+                        }
+                }, 
+
+                gameinfo: {
+
+                        tick: {
+                                draw: function(interpolation, moveDelta) {
+                                        App.Defs.Huds.gameInfo();
+                                }, 
+
+                                update: function() {
+
+                                        if(App.Controls.keyPress('SPACE')) {
+                                                App.Game.setGameState('gamestart', function(){
                                                 });
                                         }
                                 }
@@ -128,8 +111,10 @@
                                         newPos = player.c('Movable').move(xDir, yDir);
 
                                         if(!_.isUndefined(newPos.collisions) && newPos.collisions.length) {
-                                                player.c('Hurtable').takeDamage(1);
+                                                //player.c('Hurtable').takeDamage(1);
                                         }
+
+                                        delete newPos;
                                 }
                         }
                 }, 
@@ -143,7 +128,7 @@
                                         App.Defs.Huds.displayScore();
 
                                         App.Draw.get('hud').writeText(
-                                                'LEVEL_COMPLETE', 
+                                                'LEVEL/COMPLETE', 
                                                 App.Game.settings.hud.largeFont, 
                                                 '#FFF', 
                                                 63, 
@@ -151,7 +136,7 @@
                                         );
 
                                         App.Draw.get('hud').writeText(
-                                                'LEVEL_COMPLETE', 
+                                                'LEVEL/COMPLETE', 
                                                 App.Game.settings.hud.largeFont, 
                                                 App.Tools.rgbObjToColor(App.World.map.levelColors.main), 
                                                 60, 
@@ -159,18 +144,18 @@
                                         );
 
                                         App.Draw.get('hud').writeText(
-                                                'GET READY_', 
+                                                'GET READY', 
                                                 App.Game.settings.hud.normalFont, 
                                                 '#245400', 
-                                                222, 
+                                                232, 
                                                 262
                                         );
 
                                         App.Draw.get('hud').writeText(
-                                                'GET READY_', 
+                                                'GET READY', 
                                                 App.Game.settings.hud.normalFont, 
                                                 '#FFF', 
-                                                220, 
+                                                230, 
                                                 260
                                         );
                                 },
@@ -198,19 +183,19 @@
                                             bScore = App.Game.best.score + '';
 
                                         App.Draw.get('hud').writeText(
-                                                'GAME_OVER', 
+                                                'GAME/OVER', 
                                                 App.Game.settings.hud.largeFont, 
                                                 '#FFF', 
                                                 163, 
-                                                203
+                                                153
                                         );
 
                                         App.Draw.get('hud').writeText(
-                                                'GAME_OVER', 
+                                                'GAME/OVER', 
                                                 App.Game.settings.hud.largeFont, 
                                                 '#54C200', 
                                                 160, 
-                                                200
+                                                150
                                         );
 
                                         App.Draw.get('hud').writeTextMultiLine(
@@ -218,7 +203,7 @@
                                                 App.Game.settings.hud.normalFont, 
                                                 '#245400', 
                                                 212, 
-                                                252, 
+                                                202, 
                                                 38
                                         );
 
@@ -227,25 +212,27 @@
                                                 App.Game.settings.hud.normalFont, 
                                                 '#FFF', 
                                                 210, 
-                                                250, 
+                                                200, 
                                                 38
                                         );
 
                                         App.Draw.get('hud').writeText(
-                                                'PRESS (R) TO REBOOT_', 
+                                                'PRESS     TO REBOOT', 
                                                 App.Game.settings.hud.smallFont, 
                                                 '#245400', 
                                                 162, 
-                                                402
+                                                392
                                         );
 
                                         App.Draw.get('hud').writeText(
-                                                'PRESS (R) TO REBOOT_',
+                                                'PRESS     TO REBOOT',
                                                 App.Game.settings.hud.smallFont, 
                                                 '#D2FFBF', 
                                                 160, 
-                                                400
+                                                390
                                         );
+
+                                        App.Defs.Huds.drawHudKey(275, 370, 'R', 8, 26);
                                 },
 
                                 update: function() {

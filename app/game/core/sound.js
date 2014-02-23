@@ -6,7 +6,8 @@
 
                 this.filter = null;
 
-                var volume = 0.8;
+                var sfxVolume = 0.8, 
+                    musicVolume = 0.5;
 
                 this.play = function(soundId) {
 
@@ -18,7 +19,7 @@
                                         this.filter.connect(this.AudioContext.destination);
                                 }
 
-                                App.Assets.Sounds[soundId].volume = volume;
+                                App.Assets.Sounds[soundId].volume = sfxVolume;
                                 App.Assets.Sounds[soundId].play();
 
                         } else if(!_.isUndefined(App.Assets.SoundQueues[soundId])) {
@@ -30,7 +31,7 @@
                         if(!App.Assets.Music[songId].playing) {
                                 App.Assets.Music[songId].addEventListener('canplay', function() {
                                         App.Assets.Music[songId].playing = true;
-                                        App.Assets.Music[songId].volume = 0.5;
+                                        App.Assets.Music[songId].volume = musicVolume;
                                         App.Assets.Music[songId].play();
                                 });
                                 if(loop) {
@@ -40,6 +41,16 @@
                                         }, false);
                                 }
                                 App.Assets.Music[songId].load();
+                        }
+                };
+
+                this.toggleMuteSong = function(songId) {
+                        if(!_.isUndefined(App.Assets.Music[songId])) {
+                                if(!App.Assets.Music[songId].volume) {
+                                        App.Assets.Music[songId].volume = musicVolume;
+                                } else {
+                                        App.Assets.Music[songId].volume = 0;
+                                }
                         }
                 };
 

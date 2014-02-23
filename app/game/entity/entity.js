@@ -383,7 +383,7 @@
                                         if(_.isUndefined(App.World.map.grid[s1])) {
                                         } else if(!!App.World.map.grid[s1][xCols[i]] !== false) {
                                                 if(yDir > 0) {
-                                                        yStep = s1 * App.World.map.tileSize - this.bBox.h('y') - 1;
+                                                        yStep = s1 * App.World.map.tileSize - this.bBox.h('y');
                                                 } else if(yDir < 0) {
                                                         yStep = s1 * App.World.map.tileSize + App.World.map.tileSize;
                                                 }
