@@ -4,11 +4,11 @@
 
                 Loaded: {
                         Complete: false, 
-                        Images: 0, 
-                        CompositeImages: 0, 
+                        Images: {}, 
+                        CompositeImages: {}, 
 
-                        Sounds: 0, 
-                        Fonts: 0
+                        Sounds: {}, 
+                        Fonts: {}
                 }, 
 
                 Fonts: [

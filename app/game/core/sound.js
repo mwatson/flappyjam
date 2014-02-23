@@ -2,23 +2,12 @@
 
         var sound = function() {
 
-                this.AudioContext = null;
-
-                this.filter = null;
-
                 var sfxVolume = 0.8, 
                     musicVolume = 0.5;
 
                 this.play = function(soundId) {
 
                         if(!_.isUndefined(App.Assets.Sounds[soundId])) {
-                                if(this.filter) {
-                                        this.filter.frequency.value = App.Tools.rand(330, 530);
-
-                                        App.Assets.Sounds[soundId].source.connect(this.filter);
-                                        this.filter.connect(this.AudioContext.destination);
-                                }
-
                                 App.Assets.Sounds[soundId].volume = sfxVolume;
                                 App.Assets.Sounds[soundId].play();
 
@@ -75,12 +64,6 @@
                 };
 
                 this.init = (function(self) {
-                        window.AudioContext = window.AudioContext || window.webkitAudioContext;
-                        self.AudioContext = new AudioContext();
-
-                        self.filter = self.AudioContext.createBiquadFilter();
-                        self.filter.type = 1;
-                        
                 })(this);
         };
 

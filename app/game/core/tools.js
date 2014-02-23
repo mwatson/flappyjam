@@ -79,13 +79,11 @@
                                         ctx = c.getContext('2d');
                                         
                                         ctx.drawImage(App.Assets.Images[asset.name], 0, 0);
-                                        //ctx.scale(-1, 1);
-                                        //ctx.drawImage(App.Assets.Images[asset.name], -c.width, 0);
 
                                         App.Assets.Images[asset.name] = c;
-                                        App.Defs.Assets.Loaded.Images++;
+                                        App.Defs.Assets.Loaded.Images[asset.name] = true;
 
-                                        if(App.Defs.Assets.Loaded.Images == App.Defs.Assets.Images.length) {
+                                        if(_.keys(App.Defs.Assets.Loaded.Images).length == App.Defs.Assets.Images.length) {
                                                 App.Tools.buildComposites();
                                         }
                                 };
@@ -95,11 +93,8 @@
                         _.each(App.Defs.Assets.Sounds, function(asset, id) {
                                 App.Assets.Sounds[asset.name] = new Audio();
                                 App.Assets.Sounds[asset.name].addEventListener('canplay', function() {
-                                        App.Defs.Assets.Loaded.Sounds++;
+                                        App.Defs.Assets.Loaded.Sounds[asset.name] = true;
                                         App.Defs.Assets.Loaded.Complete = self.assetsCheckComplete();
-
-                                        App.Assets.Sounds[asset.name].source = App.Sound.AudioContext.createMediaElementSource(App.Assets.Sounds[asset.name]);
-                                        App.Assets.Sounds[asset.name].source.connect(App.Sound.AudioContext.destination);
                                 });
                                 App.Assets.Sounds[asset.name].src = 'assets/' + asset.rel;
                                 App.Assets.Sounds[asset.name].load();
@@ -125,7 +120,7 @@
                                         w = App.Draw.get('hud').measureText('amazing awesome!', '24px ' + asset.name);
                                         if(App.Assets.Fonts[asset.name].initWidth.width != w.width) {
                                                 App.Assets.Fonts[asset.name].loaded = true;
-                                                App.Defs.Assets.Loaded.Fonts++;
+                                                App.Defs.Assets.Loaded.Fonts[asset.name] = true;
                                                 App.Defs.Assets.Loaded.Complete = self.assetsCheckComplete();
                                         }
                                 }
@@ -133,10 +128,12 @@
                 };
 
                 this.assetsCheckComplete = function() {
-                        return (App.Defs.Assets.Loaded.CompositeImages == App.Defs.Assets.CompositeImages.length && 
-                                App.Defs.Assets.Loaded.Images == App.Defs.Assets.Images.length && 
-                                App.Defs.Assets.Loaded.Sounds == App.Defs.Assets.Sounds.length && 
-                                App.Defs.Assets.Loaded.Fonts == App.Defs.Assets.Fonts.length);
+                        return (
+                                _.keys(App.Defs.Assets.Loaded.CompositeImages).length == App.Defs.Assets.CompositeImages.length && 
+                                _.keys(App.Defs.Assets.Loaded.Images).length == App.Defs.Assets.Images.length && 
+                                _.keys(App.Defs.Assets.Loaded.Sounds).length == App.Defs.Assets.Sounds.length && 
+                                _.keys(App.Defs.Assets.Loaded.Fonts).length == App.Defs.Assets.Fonts.length
+                        );
                 };
 
                 this.buildComposites = function() {
@@ -150,7 +147,7 @@
                                 self.compositeImages(asset.images, c);
 
                                 App.Assets.Images[asset.name] = c;
-                                App.Defs.Assets.Loaded.CompositeImages++;
+                                App.Defs.Assets.Loaded.CompositeImages[asset.name] = true;
 
                                 App.Defs.Assets.Loaded.Complete = self.assetsCheckComplete();
                         });                        
