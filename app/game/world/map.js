@@ -69,6 +69,10 @@
                                 level = level % App.Defs.Levels.length;
                         }
 
+                        this.grid = [];
+                        this.columns = {};
+                        this.numCols = 0;
+
                         // build level columns
                         this.columns = App.Defs.Levels[level].build(width, height);
                         grid = this.processColumns(
@@ -78,8 +82,8 @@
                                 App.Defs.Levels[level].params.heightMax
                         );
 
-                        this.levelColorsFadeTo = App.Defs.Levels[level].params.colors;
-
+                        this.levelColorsFadeTo = _.clone(App.Defs.Levels[level].params.colors, true);
+                        
                         return grid;
                 };
 
@@ -106,8 +110,8 @@
                                         c--;
                                 }
 
-                                grid[st + 3][val] = 1;
-                                c = st + 4;
+                                grid[st + gapSize + 1][val] = 1;
+                                c = st + gapSize + 2;
                                 while(c < 9) {
                                         grid[c][val] = 1;
                                         c++;
@@ -302,7 +306,7 @@
                                 self.grid = settings.blockers;
                         }
 
-                        self.levelColors = App.Defs.Levels[0].params.colors;
+                        self.levelColors = _.clone(App.Defs.Levels[0].params.colors, true);
 
                         // spawn the player
                         var playerId = self.spawn(

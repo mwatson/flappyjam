@@ -84,6 +84,8 @@
 
                                         if(App.Game.score >= App.World.map.numCols) {
                                                 App.Game.setGameState('transition', function(){
+                                                        App.Saves.StatsSave.save();
+                                                        App.Game.genMap = true;
                                                         App.Game.defaultDir = { x: 1, y: 0 };
                                                 });
                                         }
@@ -111,7 +113,7 @@
                                         newPos = player.c('Movable').move(xDir, yDir);
 
                                         if(!_.isUndefined(newPos.collisions) && newPos.collisions.length) {
-                                                //player.c('Hurtable').takeDamage(1);
+                                                player.c('Hurtable').takeDamage(1);
                                         }
 
                                         delete newPos;
@@ -161,9 +163,19 @@
                                 },
 
                                 update: function() {
+                                        var player = App.World.getPlayer(0);
+
                                         App.Game.gameplayOps();
 
-                                        App.World.getPlayer(0).c('Movable').move(
+                                        if(player.attrs.y > 5 * 64) {
+                                                App.Game.defaultDir.y = -1;
+                                        } else if(player.attrs.y < 4 * 64) {
+                                                App.Game.defaultDir.y = 1;
+                                        } else {
+                                                App.Game.defaultDir.y = 0;
+                                        }
+
+                                        player.c('Movable').move(
                                                 App.Game.defaultDir.x, 
                                                 App.Game.defaultDir.y
                                         );
@@ -217,7 +229,7 @@
                                         );
 
                                         App.Draw.get('hud').writeText(
-                                                'PRESS     TO REBOOT', 
+                                                'PRESS    TO REBOOT', 
                                                 App.Game.settings.hud.smallFont, 
                                                 '#245400', 
                                                 162, 
@@ -225,14 +237,14 @@
                                         );
 
                                         App.Draw.get('hud').writeText(
-                                                'PRESS     TO REBOOT',
+                                                'PRESS    TO REBOOT',
                                                 App.Game.settings.hud.smallFont, 
                                                 '#D2FFBF', 
                                                 160, 
                                                 390
                                         );
 
-                                        App.Defs.Huds.drawHudKey(275, 370, 'R', 8, 26);
+                                        App.Defs.Huds.drawHudKey(275, 380, 'R', 4, 16);
                                 },
 
                                 update: function() {

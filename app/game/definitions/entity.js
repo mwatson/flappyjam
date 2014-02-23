@@ -64,6 +64,7 @@
                                                                         App.Game.best.score = App.Game.score;
                                                                 }
                                                         }
+                                                        App.Saves.StatsSave.save();
                                                 });
                                         }
                                 }

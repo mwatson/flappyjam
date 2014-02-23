@@ -30,6 +30,7 @@
                         // initialize game objects
                         App.Tools       = new App.Objects.Tools();
                         App.Definitions = new App.Objects.Definitions();
+                        App.Storage     = new App.Objects.Storage();
                         App.Draw        = new App.Objects.Draw(settings.draw);
                         App.Sound       = new App.Objects.Sound(settings.sound);
                         App.Controls    = new App.Objects.Controls();
@@ -41,6 +42,13 @@
 
                         // init player
                         App.Player.init();
+
+                        // init savefile
+                        App.Saves = {};
+                        App.Saves.StatsSave  = new App.Objects.SaveFile(App.Defs.Saves_StatsSave);
+
+                        // load stats
+                        App.Saves.StatsSave.load();
 
                         // Load assets
                         App.Tools.assetLoader();
@@ -157,22 +165,6 @@
                                 App.Tools.printFPS('hud', App.Game.loopInfo);
                                 App.Tools.printPlayerPos('hud', App.World.getPlayer());
                         }
-
-                        /*
-                        if(plAccum >= 25) {
-                                App.Draw.get('background').parallax.x += (0.02 * plax);
-                                App.Draw.get('background').parallax.y += (0.02 * plax);
-                                if(App.Draw.get('background').parallax.x <= 0.45) {
-                                        plax = 1;
-                                }
-                                if(App.Draw.get('background').parallax.x >= 0.85) {
-                                        plax = -1;
-                                }
-                                plAccum = 0;
-                                console.log(App.Draw.get('background').parallax);
-                        }
-                        plAccum += (curTime - this.lastUpdate);
-                        */
 
                         //
                         // this should be at the end of the loop
@@ -295,6 +287,8 @@
 
                 this.colScore = {};
 
+                this.genMap = true;
+
                 this.playerOps = function() {
                         var player = App.World.getPlayer(0), 
                             camera = App.World.getCamera(), 
@@ -322,13 +316,11 @@
                                 _.each(this.colScore, function(val, key){
                                         self.colScore[key] = false;
                                 });
-                        } else if(player.attrs.x > 128 * 64) {
+                        } else if(player.attrs.x > 128 * 64 && this.genMap) {
                                 // (re)generate the map
-                                App.World.map.grid = [];
-                                App.World.map.columns = {};
-                                App.World.map.numCols = 0;
                                 self.colScore = {};
                                 App.World.map.grid = App.World.map.generateBlockers(192, 9, App.Game.level + 1);
+                                this.genMap = false;
                         }
 
                         gridX = Math.floor(player.attrs.x / 64);

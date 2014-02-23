@@ -83,7 +83,7 @@
                 build: function(width, height) {
                         var columns = {};
                         for(y = 0; y < height; y++) {
-                                for(x = 32; x < width - 64; x += 4) {
+                                for(x = 32; x < width - 64; x += 5) {
                                         columns['col_' + x] = x;
                                 }
                         }

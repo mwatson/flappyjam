@@ -93,6 +93,7 @@ App.init = function() {
                         hud: {
                                 titleFont: 'bold 44px PCSenior', 
                                 largeFont: 'bold 36px PCSenior', 
+                                mediumFont: 'bold 28px PCSenior', 
                                 normalFont: 'bold 24px PCSenior',
                                 smallFont: 'bold 18px PCSenior'
                         }, 
@@ -101,6 +102,7 @@ App.init = function() {
                         fontHeights: {
                                 'bold 44px PCSenior': 44, 
                                 'bold 36px PCSenior': 36, 
+                                'bold 28px PCSenior': 28, 
                                 'bold 24px PCSenior': 24, 
                                 'bold 18px PCSenior': 18, 
                                 'bold 24px Courier New': 24

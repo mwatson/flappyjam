@@ -130,9 +130,9 @@
                                 34
                         );
 
-                        App.Defs.Huds.drawHudKey(140, 370, 'W', 8, 26);
-                        App.Defs.Huds.drawHudKey(330, 370, 'S', 10, 26);
-                        App.Defs.Huds.drawHudKey(520, 370, 'M', 8, 26);
+                        App.Defs.Huds.drawHudKey(140, 380, 'W', 4, 16);
+                        App.Defs.Huds.drawHudKey(330, 380, 'S', 6, 16);
+                        App.Defs.Huds.drawHudKey(520, 380, 'M', 4, 16);
                 }, 
 
                 gameInfo: function() {
@@ -157,9 +157,9 @@
                                 '> A GAME BY MIKE WATSON|' + 
                                 '>  mantiseyelabs.com|' + 
                                 '>|' + 
-                                '> MUSIC TRACK:|' + 
+                                '> MUSIC:|' + 
                                 '>  "PUMPED" BY ROCCOW|' + 
-                                '>   http://|' + 
+                                '>  soundcloud.com/roccow|' + 
                                 '>|' + 
                                 '> SPACEBAR TO RETURN|';
 
@@ -185,15 +185,15 @@
                 // helper function
                 drawHudKey: function(x, y, letter, textX, textY) {
 
-                        App.Draw.get('hud').fillRect(x + 4, y - 4, 48, 64, '#555555');
-                        App.Draw.get('hud').fillRect(x - 4, y + 4, 64, 48, '#555555');
+                        App.Draw.get('hud').fillRect(x + 4, y - 4, 32, 48, '#555555');
+                        App.Draw.get('hud').fillRect(x - 4, y + 4, 48, 32, '#555555');
 
-                        App.Draw.get('hud').fillRect(x, y - 8, 48, 64, '#D2FFBF');
-                        App.Draw.get('hud').fillRect(x - 8, y, 64, 48, '#D2FFBF');
+                        App.Draw.get('hud').fillRect(x, y - 8, 32, 48, '#D2FFBF');
+                        App.Draw.get('hud').fillRect(x - 8, y, 48, 32, '#D2FFBF');
 
                         App.Draw.get('hud').writeTextCenter(
                                 letter, 
-                                App.Game.settings.hud.largeFont, 
+                                App.Game.settings.hud.mediumFont, 
                                 '#000', 
                                 x + textX, 
                                 y + textY
