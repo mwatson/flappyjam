@@ -78,7 +78,7 @@ App.init = function() {
                         
                         debug: {
                                 font: 'bold 12px Courier New', 
-                                fps: true, 
+                                fps: false, 
                                 boundingBoxes: false, 
                                 fishInfo: false, 
                                 showQuadTree: false, 
