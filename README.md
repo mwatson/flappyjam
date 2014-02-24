@@ -1,8 +1,8 @@
 ### VIRTUAL/BIRD
 
-This is a Flappy Bird-like game I made for Flappy Jam
+This is a Flappy Bird-like game I made for Flappy Jam: http://itch.io/jam/flappyjam
 
-http://itch.io/jam/flappyjam
+You can play Virtual/Bird on itch.io: http://mantiseyelabs.itch.io/virtualbird
 
 See LICENSE.txt for license information.
 
