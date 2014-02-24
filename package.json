@@ -1,7 +1,7 @@
 {
         "name": "virtual-bird", 
-        "description": "Entry to Flappy Jam", 
-        "version": "1.0.1", 
+        "description": "Virtual/Bird - Flappy Jam Entry", 
+        "version": "1.0.2", 
         "devDependencies": {
                 "grunt": "~0.4.1", 
                 "grunt-contrib-concat": "0.3.0", 

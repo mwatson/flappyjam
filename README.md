@@ -1,10 +1,11 @@
-### Commander Candy in: The Great Candy Wars -- The Saga of Candy Bay
+### VIRTUAL/BIRD
 
-(Working title)
+This is a Flappy Bird-like game I made for Flappy Jam
 
-This is a game jam game for the Candy Jam: 
-
-http://thecandyjam.com/
-http://itch.io/jam/candyjam
+http://itch.io/jam/flappyjam
 
 See LICENSE.txt for license information.
+
+#### Build Process
+
+Requires node and npm. After installing node, from the project root run `npm install -g grunt-cli` to install Grunt locally. Next run `npm install` which will install all local dependencies for the gruntfile. After that you can simply run `grunt` to build. The distribution files will be placed in `build\targets\web`.

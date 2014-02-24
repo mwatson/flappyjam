@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
-<title></title>
+<title>VIRTUAL/BIRD</title>
 
 <style>
 @font-face {
@@ -14,8 +14,12 @@
         src: url('assets/fonts/pcsenior.ttf');
 }
 body { margin: 0px; padding: 0px; background: #000; overflow: hidden; }
-canvas { /*cursor: url('assets/img/crosshair01.png'), crosshair;*/ cursor: none; }
-div#dragbar { position: absolute; top: 0px; left: 0px; width: 100%; height: 16px; -webkit-app-region: drag; cursor: pointer; }
+canvas { cursor: none; }
+div#contain { display: none; width: 640px; height: 480px; position: absolute; top: 50%; left: 50%; margin: -240px 0px 0px -320px; z-index: 1000; }
+a.link { display: block; position: absolute; height: 40px; left: 175px;  }
+a.link:hover { border-bottom: 2px solid #FFF; }
+a#mantiseyelabs { top: 175px; width: 350px; }
+a#roccow { top: 330px; width: 420px; }
 </style>
 
 <script src="lib/lodash.js"></script>
@@ -49,6 +53,9 @@ div#dragbar { position: absolute; top: 0px; left: 0px; width: 100%; height: 16px
         
 </head>
 <body>
-        <div id="dragbar"></div>
+        <div id="contain">
+                <a href="http://mantiseyelabs.com/" class="link" id="mantiseyelabs" target="_blank"></a>
+                <a href="http://soundcloud.com/roccow" class="link" id="roccow" target="_blank"></a>
+        </div>
 </body>
 </html>

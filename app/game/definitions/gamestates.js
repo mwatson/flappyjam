@@ -48,6 +48,7 @@
 
                                         } else if(App.Controls.keyPress('SPACE')) {
                                                 App.Game.setGameState('gameinfo', function(){
+                                                        document.getElementById('contain').style.display = 'block';
                                                 });
                                         }
                                 }
@@ -65,6 +66,7 @@
 
                                         if(App.Controls.keyPress('SPACE')) {
                                                 App.Game.setGameState('gamestart', function(){
+                                                        document.getElementById('contain').style.display = 'none';
                                                 });
                                         }
                                 }

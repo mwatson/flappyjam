@@ -2,7 +2,7 @@
 
         var statsSave = {
 
-                name: 'gamestats', 
+                name: 'virtualbird-gamestats', 
 
                 save: function() {
                         return {
